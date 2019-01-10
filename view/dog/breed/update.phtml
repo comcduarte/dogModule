@@ -1,0 +1,9 @@
+<?php 
+$title = "Update Breed";
+$this->headtitle($title);
+
+$form->setAttribute('action', $this->url('dog/breed', ['action' => 'update', 'uuid' => $this->uuid]));
+$form->prepare();
+
+echo $this->partial('dog/partial/breedform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]);
+?>

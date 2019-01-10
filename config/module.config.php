@@ -3,6 +3,11 @@
 use Zend\Router\Http\Literal;
 use Dog\Controller\DogController;
 use Dog\Controller\Factory\DogControllerFactory;
+use Dog\Controller\BreedController;
+use Dog\Controller\Factory\BreedControllerFactory;
+use Zend\Router\Http\Segment;
+use Dog\Form\BreedForm;
+use Dog\Form\Factory\BreedFormFactory;
 
 return [
     'router' => [
@@ -17,6 +22,20 @@ return [
                         'action' => 'index',
                     ],
                 ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'breed' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/breed[/:action[/:uuid]]',
+                            'defaults' => [
+                                'controller' => BreedController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
+                    
+                ],
             ],
         ],
     ],
@@ -26,11 +45,18 @@ return [
         ],
         'member' => [
             'dog' => ['index'],
+            'dog/breed' => ['index', 'create', 'update', 'delete'],
         ],
     ],
     'controllers' => [
         'factories' => [
             DogController::class => DogControllerFactory::class,
+            BreedController::class => BreedControllerFactory::class,
+        ],
+    ],
+    'form_elements' => [
+        'factories' => [
+            BreedForm::class => BreedFormFactory::class,
         ],
     ],
     'navigation' => [
@@ -38,6 +64,25 @@ return [
             [
                 'label' => 'Dog',
                 'route' => 'dog',
+                'class' => 'dropdown',
+                'pages' => [
+                    [
+                        'label' => 'Breed Maintenance',
+                        'route' => 'dog/breed',
+                        'class' => 'dropdown-submenu',
+                        'pages' => [
+                            [
+                                'label' => 'List Breeds',
+                                'route' => 'dog/breed',
+                            ],
+                            [
+                                'label' => 'Add New Breed',
+                                'route' => 'dog/breed',
+                                'action' => 'create',
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ],
     ],
