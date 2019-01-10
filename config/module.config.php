@@ -34,7 +34,16 @@ return [
                             ],
                         ],
                     ],
-                    
+                    'dog' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/dog[/:action[/:uuid]]',
+                            'defaults' => [
+                                'controller' => DogController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -46,6 +55,7 @@ return [
         'member' => [
             'dog' => ['index'],
             'dog/breed' => ['index', 'create', 'update', 'delete'],
+            'dog/dog' => ['index', 'create', 'update', 'delete'],
         ],
     ],
     'controllers' => [
@@ -57,6 +67,7 @@ return [
     'form_elements' => [
         'factories' => [
             BreedForm::class => BreedFormFactory::class,
+            DogForm::class => DogFormFactory::class,
         ],
     ],
     'navigation' => [
@@ -78,6 +89,22 @@ return [
                             [
                                 'label' => 'Add New Breed',
                                 'route' => 'dog/breed',
+                                'action' => 'create',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Dog Maintenance',
+                        'route' => 'dog/dog',
+                        'class' => 'dropdown-submenu',
+                        'pages' => [
+                            [
+                                'label' => 'List Dogs',
+                                'route' => 'dog/dog',
+                            ],
+                            [
+                                'label' => 'Add New Dog',
+                                'route' => 'dog/dog',
                                 'action' => 'create',
                             ],
                         ],

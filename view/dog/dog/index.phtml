@@ -1,1 +1,27 @@
-Module: Dog &raquo; Controller: Dog &raquo; Action: Index
+<div class="container">
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Dog Name</th>
+			<th>Status</th>
+			<th>Date Created</th>
+			<th>Date Modified</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->dogs as $dog) : ?>
+		<tr>
+			<td>
+				<?php $url = $this->url('dog/dog',['action' => 'update','uuid' => $dog['UUID']]); ?>
+				<a href="<?php echo $url; ?>"><?php echo $dog['NAME']; ?></a>
+			</td>
+			<td><?php echo $dog['STATUS']; ?></td>
+			<td><?php echo $dog['DATE_CREATED']; ?></td>
+			<td><?php echo $dog['DATE_MODIFIED']; ?></td>
+			<td><a href="<?php echo $this->url('dog/dog', ['action' => 'delete', 'uuid' => $dog['UUID']]); ?>">X</a></td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+	</table>
+</div>

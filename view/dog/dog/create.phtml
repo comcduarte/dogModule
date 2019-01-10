@@ -1,0 +1,9 @@
+<?php 
+$title = "Add New Dog";
+$this->headtitle($title);
+
+$form->setAttribute('action', $this->url('dog/dog', ['action' => 'create']));
+$form->prepare();
+
+echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form]);
+?>
