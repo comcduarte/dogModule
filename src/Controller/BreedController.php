@@ -44,7 +44,7 @@ class BreedController extends AbstractActionController
                 $breed->DATE_CREATED = $today;
                 $breed->DATE_MODIFIED = $today;
                 
-                $breed->STATUS = 1;
+                $breed->STATUS = $breed::ACTIVE_STATUS;
                 
                 $breed->create();
                 
