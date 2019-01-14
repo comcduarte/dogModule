@@ -3,12 +3,16 @@ namespace Dog\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element\Csrf;
+use Zend\Form\Element\Date;
+use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
+use Zend\Form\Element\Radio;
+use Dog\Model\DogModel;
 
 class DogForm extends Form
 {
-    public function init()
+    public function initialize()
     {
         $this->add([
             'name' => 'NAME',
@@ -25,7 +29,7 @@ class DogForm extends Form
         
         $this->add([
             'name' => 'BREED',
-            'type' => Text::class,
+            'type' => Select::class,
             'attributes' => [
                 'id' => 'BREED',
                 'class' => 'form-control',
@@ -33,24 +37,59 @@ class DogForm extends Form
             ],
             'options' => [
                 'label' => 'Breed',
+                'value_options' => [],
             ],
         ]);
         
         $this->add([
             'name' => 'SEX',
-            'type' => Text::class,
+            'type' => Radio::class,
             'attributes' => [
                 'id' => 'SEX',
                 'class' => 'form-control',
             ],
             'options' => [
                 'label' => 'Sex',
+                'value_options' => [
+                    [
+                        'value' => DogModel::MALE,
+                        'label' => 'Male',
+                        'disabled' => false,
+                        'attributes' => [
+                            'class' => 'form-check',
+                        ],
+                    ],
+                    [
+                        'value' => DogModel::FEMALE,
+                        'label' => 'Female',
+                        'disabled' => false,
+                        'attributes' => [
+                            'class' => 'form-check',
+                        ],
+                    ],
+                    [
+                        'value' => DogModel::NEUTERED,
+                        'label' => 'Neutered',
+                        'disabled' => false,
+                        'attributes' => [
+                            'class' => 'form-check',
+                        ],
+                    ],
+                    [
+                        'value' => DogModel::SPAYED,
+                        'label' => 'Spayed',
+                        'disabled' => false,
+                        'attributes' => [
+                            'class' => 'form-check',
+                        ],
+                    ],
+                ],
             ],
         ]);
         
         $this->add([
             'name' => 'DATE_BIRTH',
-            'type' => Text::class,
+            'type' => Date::class,
             'attributes' => [
                 'id' => 'DATE_BIRTH',
                 'class' => 'form-control',
@@ -62,7 +101,7 @@ class DogForm extends Form
         
         $this->add([
             'name' => 'DATE_RABIESEXP',
-            'type' => Text::class,
+            'type' => Date::class,
             'attributes' => [
                 'id' => 'DATE_RABIESEXP',
                 'class' => 'form-control',

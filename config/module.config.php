@@ -8,6 +8,8 @@ use Dog\Controller\Factory\BreedControllerFactory;
 use Zend\Router\Http\Segment;
 use Dog\Form\BreedForm;
 use Dog\Form\Factory\BreedFormFactory;
+use Dog\Form\DogForm;
+use Dog\Form\Factory\DogFormFactory;
 
 return [
     'router' => [
@@ -114,6 +116,9 @@ return [
         ],
     ],
     'service_manager' => [
+        'factories' => [
+            
+        ],
         'aliases' => [
             'dog-model-primary-adapter-config' => 'user-model-primary-adapter-config',
         ],
