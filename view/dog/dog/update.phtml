@@ -6,4 +6,6 @@ $form->setAttribute('action', $this->url('dog/dog', ['action' => 'update', 'uuid
 $form->prepare();
 
 echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]);
+
+echo $this->annotations()->setAnnotations($annotations)->render();
 ?>

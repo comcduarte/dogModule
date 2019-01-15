@@ -6,6 +6,9 @@ use Zend\Db\Adapter\AdapterAwareTrait;
 use Dog\Model\DogModel;
 use Midnet\Model\Uuid;
 use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Predicate\Like;
+use Annotation\Model\AnnotationModel;
+use User\Model\UserModel;
 
 class DogController extends AbstractActionController
 {
@@ -81,7 +84,30 @@ class DogController extends AbstractActionController
             }
         }
         
+        //-- Retrieve Annotations --//
+        $annotation = new AnnotationModel($this->adapter);
+        //$where = new Where(['TABLENAME' => 'dogs','PRIKEY' => $uuid]);
+        $where = new Where([
+            new Like('TABLENAME', 'dogs'),
+            new Like('PRIKEY', $uuid),
+        ]);
+        $annotations = $annotation->fetchAll($where, ['DATE_CREATED']);
+        
+        $notes = [];
+        foreach ($annotations as $annotation) {
+            $user = new UserModel($this->adapter);
+            $user->read(['UUID' => $annotation['USER']]);
+            
+            $notes[] = [
+                'USER' => $user->USERNAME,
+                'ANNOTATION' => $annotation['ANNOTATION'],
+                'DATE_CREATED' => $annotation['DATE_CREATED'],
+            ];
+        }
+        
+        
         return ([
+            'annotations' => $notes,
             'form' => $this->form,
             'uuid' => $uuid,
         ]);
