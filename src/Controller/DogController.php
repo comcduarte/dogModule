@@ -110,6 +110,9 @@ class DogController extends AbstractActionController
             'annotations' => $notes,
             'form' => $this->form,
             'uuid' => $uuid,
+            'annotations_prikey' => $uuid,
+            'annotations_tablename' => 'dogs',
+            'annotations_user' => '',
         ]);
     }
     
