@@ -91,7 +91,7 @@ class DogController extends AbstractActionController
             new Like('TABLENAME', 'dogs'),
             new Like('PRIKEY', $uuid),
         ]);
-        $annotations = $annotation->fetchAll($where, ['DATE_CREATED']);
+        $annotations = $annotation->fetchAll($where, ['DATE_CREATED DESC']);
         
         $notes = [];
         foreach ($annotations as $annotation) {
