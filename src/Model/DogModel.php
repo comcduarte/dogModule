@@ -2,6 +2,10 @@
 namespace Dog\Model;
 
 use Midnet\Model\DatabaseObject;
+use Midnet\Model\Uuid;
+use RuntimeException;
+use Zend\Db\Sql\Insert;
+use Zend\Db\Sql\Sql;
 
 class DogModel extends DatabaseObject
 {
@@ -26,5 +30,37 @@ class DogModel extends DatabaseObject
         
         $this->primary_key = 'UUID';
         $this->table = 'dogs';
+    }
+    
+    public function assignUser($user) 
+    {
+        $sql = new Sql($this->dbAdapter);
+        $uuid = new Uuid();
+        
+        $columns = [
+            'UUID',
+            'USER',
+            'DOG',
+        ];
+        
+        $values = [
+            $uuid->value,
+            $user,
+            $this->UUID,
+        ];
+        
+        $insert = new Insert();
+        $insert->into('dog_users');
+        $insert->columns($columns);
+        $insert->values($values);
+        
+        $statement = $sql->prepareStatementForSqlObject($insert);
+        
+        try {
+            $statement->execute();
+        } catch (RuntimeException $e) {
+            return $e;
+        }
+        return $this;
     }
 }

@@ -4,8 +4,17 @@ $this->headtitle($title);
 
 $form->setAttribute('action', $this->url('dog/dog', ['action' => 'update', 'uuid' => $this->uuid]));
 $form->prepare();
-
+?>
+<div class="container">
+	<div class="row">
+<?
 echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]);
 
+echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners_users, 'form' => $this->owners_form, 'dog' => $this->uuid]);
+?>
+	</div>
+</div>
+
+<?php
 echo $this->annotations()->setAnnotations($annotations)->render();
 ?>

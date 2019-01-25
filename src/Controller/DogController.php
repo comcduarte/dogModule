@@ -9,12 +9,15 @@ use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Predicate\Like;
 use Annotation\Model\AnnotationModel;
 use User\Model\UserModel;
+use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Select;
 
 class DogController extends AbstractActionController
 {
     use AdapterAwareTrait;
     
     public $form;
+    public $DogUsersForm;
     
     public function indexAction()
     {
@@ -84,7 +87,7 @@ class DogController extends AbstractActionController
             }
         }
         
-        //-- Retrieve Annotations --//
+        //-- BEGIN: Retrieve Annotations --//
         $annotation = new AnnotationModel($this->adapter);
         //$where = new Where(['TABLENAME' => 'dogs','PRIKEY' => $uuid]);
         $where = new Where([
@@ -104,7 +107,27 @@ class DogController extends AbstractActionController
                 'DATE_CREATED' => $annotation['DATE_CREATED'],
             ];
         }
+        //-- END: Retrieve Annotations --//
         
+        //-- BEGIN: Retrieve Owners --//
+        $sql = new Sql($this->adapter);
+        
+        $select = new Select();
+        $select->columns(['USER']);
+        $select->from('dog_users');
+        $select->where([new Like('DOG', $uuid)]);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $owners = $statement->execute();
+        
+        $owners_users = [];
+        foreach ($owners as $owner) {
+            $user = new UserModel($this->adapter);
+            $user->read(['UUID' => $owner['USER']]);
+            $owners_users[] = $user->getArrayCopy();
+        }
+        
+        //-- END: Retrieve Owners --//
         
         return ([
             'annotations' => $notes,
@@ -113,6 +136,8 @@ class DogController extends AbstractActionController
             'annotations_prikey' => $uuid,
             'annotations_tablename' => 'dogs',
             'annotations_user' => '',
+            'owners_users' => $owners_users,
+            'owners_form' => $this->DogUsersForm,
         ]);
     }
     
@@ -128,5 +153,29 @@ class DogController extends AbstractActionController
         $model->delete();
         
         return $this->redirect()->toRoute('dog/dog');
+    }
+    
+    public function assignuserAction()
+    {
+        $form = $this->DogUsersForm;
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            
+            if ($form->isValid()) {
+                $dog = new DogModel($this->adapter);
+                $data = $form->getData();
+                $dog_uuid = $data['DOG'];
+                $user_uuid = $data['USER'];
+                $dog->read(['UUID' => $dog_uuid]);
+                $dog->assignUser($user_uuid);
+                $dog->update();
+            }
+        }
+        
+        //-- Return to previous screen --//
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
     }
 }

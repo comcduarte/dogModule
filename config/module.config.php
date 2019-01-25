@@ -10,6 +10,8 @@ use Dog\Form\BreedForm;
 use Dog\Form\Factory\BreedFormFactory;
 use Dog\Form\DogForm;
 use Dog\Form\Factory\DogFormFactory;
+use Dog\Form\DogUsersForm;
+use Dog\Form\Factory\DogUsersFormFactory;
 
 return [
     'router' => [
@@ -57,7 +59,7 @@ return [
         'member' => [
             'dog' => ['index'],
             'dog/breed' => ['index', 'create', 'update', 'delete'],
-            'dog/dog' => ['index', 'create', 'update', 'delete'],
+            'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser'],
         ],
     ],
     'controllers' => [
@@ -70,6 +72,7 @@ return [
         'factories' => [
             BreedForm::class => BreedFormFactory::class,
             DogForm::class => DogFormFactory::class,
+            DogUsersForm::class => DogUsersFormFactory::class,
         ],
     ],
     'navigation' => [
