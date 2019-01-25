@@ -178,4 +178,22 @@ class DogController extends AbstractActionController
         $url = $this->getRequest()->getHeader('Referer')->getUri();
         return $this->redirect()->toUrl($url);
     }
+    
+    public function unassignuserAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $data = $request->getPost();
+            
+            $model = new DogModel($this->adapter);
+            $model->read(['UUID' => $data['DOG']]);
+            $model->unassignUser($data['USER']);
+            
+        }
+        
+        
+        
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
+    }
 }

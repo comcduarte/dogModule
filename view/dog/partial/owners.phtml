@@ -6,6 +6,7 @@
     		<tr>
     			<th>First Name</th>
     			<th>Last Name</th>
+    			<th />
     		</tr>
     	</thead>
     	<tbody>
@@ -13,6 +14,13 @@
     		<tr>
     			<td><?=$user['FNAME']?></td>
     			<td><?=$user['LNAME']?></td>
+    			<td>
+    				<form method="POST" action="<?php echo $this->url('dog/dog', ['action' => 'unassignuser']);?>">
+    					<input type="hidden" name="DOG" id="DOG" value="<?php echo $this->dog; ?>">
+    					<input type="hidden" name="USER" id="USER" value="<?php echo $user['UUID']; ?>">
+    					<input type="submit" name="SUBMIT" class="btn btn-danger btn-sm" id="SUBMIT" value="X">
+    				</form>
+    			</td>
     		</tr>
 		<?php endforeach; ?>
     	</tbody>

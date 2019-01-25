@@ -6,6 +6,7 @@ use Midnet\Model\Uuid;
 use RuntimeException;
 use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Delete;
 
 class DogModel extends DatabaseObject
 {
@@ -55,6 +56,24 @@ class DogModel extends DatabaseObject
         $insert->values($values);
         
         $statement = $sql->prepareStatementForSqlObject($insert);
+        
+        try {
+            $statement->execute();
+        } catch (RuntimeException $e) {
+            return $e;
+        }
+        return $this;
+    }
+    
+    public function unassignUser($user)
+    {
+        $sql = new Sql($this->dbAdapter);
+                
+        $delete = new Delete();
+        $delete->from('dog_users');
+        $delete->where(['USER' => $user, 'DOG' => $this->UUID]);
+        
+        $statement = $sql->prepareStatementForSqlObject($delete);
         
         try {
             $statement->execute();

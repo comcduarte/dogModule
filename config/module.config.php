@@ -59,7 +59,7 @@ return [
         'member' => [
             'dog' => ['index'],
             'dog/breed' => ['index', 'create', 'update', 'delete'],
-            'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser'],
+            'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser'],
         ],
     ],
     'controllers' => [
