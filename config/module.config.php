@@ -12,6 +12,7 @@ use Dog\Form\DogForm;
 use Dog\Form\Factory\DogFormFactory;
 use Dog\Form\DogUsersForm;
 use Dog\Form\Factory\DogUsersFormFactory;
+use Dog\Controller\Factory\DogCodeControllerFactory;
 
 return [
     'router' => [
@@ -38,6 +39,16 @@ return [
                             ],
                         ],
                     ],
+                    'code' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/code[/:action[/:uuid]]',
+                            'defaults' => [
+                                'controller' => DogCodeController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
                     'dog' => [
                         'type' => Segment::class,
                         'options' => [
@@ -59,6 +70,7 @@ return [
         'member' => [
             'dog' => ['index'],
             'dog/breed' => ['index', 'create', 'update', 'delete'],
+            'dog/code' => ['index', 'create', 'update', 'delete'],
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser'],
         ],
     ],
@@ -66,11 +78,13 @@ return [
         'factories' => [
             DogController::class => DogControllerFactory::class,
             BreedController::class => BreedControllerFactory::class,
+            DogCodeController::class => DogCodeControllerFactory::class,
         ],
     ],
     'form_elements' => [
         'factories' => [
             BreedForm::class => BreedFormFactory::class,
+            DogCodeForm::class => DogCodeFormFactory::class,
             DogForm::class => DogFormFactory::class,
             DogUsersForm::class => DogUsersFormFactory::class,
         ],
@@ -94,6 +108,22 @@ return [
                             [
                                 'label' => 'Add New Breed',
                                 'route' => 'dog/breed',
+                                'action' => 'create',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Code Maintenance',
+                        'route' => 'dog/code',
+                        'class' => 'dropdown-submenu',
+                        'pages' => [
+                            [
+                                'label' => 'List Codes',
+                                'route' => 'dog/code',
+                            ],
+                            [
+                                'label' => 'Add New Code',
+                                'route' => 'dog/code',
                                 'action' => 'create',
                             ],
                         ],

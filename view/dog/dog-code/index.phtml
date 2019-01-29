@@ -1,0 +1,29 @@
+<div class="container">
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Code Name</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>Date Created</th>
+			<th>Date Modified</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->codes as $code) : ?>
+		<tr>
+			<td>
+				<?php $url = $this->url('dog/code',['action' => 'update','uuid' => $code['UUID']]); ?>
+				<a href="<?php echo $url; ?>"><?php echo $code['CODE']; ?></a>
+			</td>
+			<td><?php echo $code['DESCRIPTION']; ?></td>
+			<td><?php echo $code['STATUS']; ?></td>
+			<td><?php echo $code['DATE_CREATED']; ?></td>
+			<td><?php echo $code['DATE_MODIFIED']; ?></td>
+			<td><a href="<?php echo $this->url('dog/code', ['action' => 'delete', 'uuid' => $code['UUID']]); ?>">X</a></td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+	</table>
+</div>

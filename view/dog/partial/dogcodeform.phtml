@@ -1,0 +1,26 @@
+<?php
+echo $this->form()->openTag($form);
+?>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<h3><?php echo $this->title; ?></h3>
+			
+			<!-- Hidden Elements -->
+			<div class="form-group">
+				<?php echo $this->formRow($form->get('SECURITY')); ?>
+			</div>
+			
+			<div class="form-group">
+				<?php echo $this->formRow($form->get('CODE')); ?>
+			</div>
+			<div class="form-group">
+				<?php echo $this->formRow($form->get('DESCRIPTION')); ?>
+			</div>
+			<div class="form-group">
+				<?php echo $this->formRow($form->get('SUBMIT')); ?>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag($form); ?>
