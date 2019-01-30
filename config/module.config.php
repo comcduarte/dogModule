@@ -1,18 +1,24 @@
 <?php 
 
-use Zend\Router\Http\Literal;
-use Dog\Controller\DogController;
-use Dog\Controller\Factory\DogControllerFactory;
 use Dog\Controller\BreedController;
+use Dog\Controller\DogCodeController;
+use Dog\Controller\DogController;
+use Dog\Controller\LicenseController;
 use Dog\Controller\Factory\BreedControllerFactory;
-use Zend\Router\Http\Segment;
-use Dog\Form\BreedForm;
-use Dog\Form\Factory\BreedFormFactory;
-use Dog\Form\DogForm;
-use Dog\Form\Factory\DogFormFactory;
-use Dog\Form\DogUsersForm;
-use Dog\Form\Factory\DogUsersFormFactory;
 use Dog\Controller\Factory\DogCodeControllerFactory;
+use Dog\Controller\Factory\DogControllerFactory;
+use Dog\Controller\Factory\LicenseControllerFactory;
+use Dog\Form\BreedForm;
+use Dog\Form\DogCodeForm;
+use Dog\Form\DogForm;
+use Dog\Form\DogUsersForm;
+use Dog\Form\LicenseForm;
+use Dog\Form\Factory\BreedFormFactory;
+use Dog\Form\Factory\DogCodeFormFactory;
+use Dog\Form\Factory\DogFormFactory;
+use Dog\Form\Factory\DogUsersFormFactory;
+use Zend\Router\Http\Literal;
+use Zend\Router\Http\Segment;
 
 return [
     'router' => [
@@ -59,6 +65,16 @@ return [
                             ],
                         ],
                     ],
+                    'license' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/license[/:action[/:uuid]]',
+                            'defaults' => [
+                                'controller' => LicenseController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -72,6 +88,7 @@ return [
             'dog/breed' => ['index', 'create', 'update', 'delete'],
             'dog/code' => ['index', 'create', 'update', 'delete'],
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser'],
+            'dog/license' => ['index', 'create', 'update', 'delete'],
         ],
     ],
     'controllers' => [
@@ -79,6 +96,7 @@ return [
             DogController::class => DogControllerFactory::class,
             BreedController::class => BreedControllerFactory::class,
             DogCodeController::class => DogCodeControllerFactory::class,
+            LicenseController::class => LicenseControllerFactory::class,
         ],
     ],
     'form_elements' => [
@@ -87,6 +105,7 @@ return [
             DogCodeForm::class => DogCodeFormFactory::class,
             DogForm::class => DogFormFactory::class,
             DogUsersForm::class => DogUsersFormFactory::class,
+            LicenseForm::class => LicenseFormFactory::class,
         ],
     ],
     'navigation' => [
@@ -140,6 +159,22 @@ return [
                             [
                                 'label' => 'Add New Dog',
                                 'route' => 'dog/dog',
+                                'action' => 'create',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'License Maintenance',
+                        'route' => 'dog/license',
+                        'class' => 'dropdown-submenu',
+                        'pages' => [
+                            [
+                                'label' => 'List Licenses',
+                                'route' => 'dog/license',
+                            ],
+                            [
+                                'label' => 'Add New License',
+                                'route' => 'dog/license',
                                 'action' => 'create',
                             ],
                         ],

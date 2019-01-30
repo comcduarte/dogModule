@@ -1,0 +1,9 @@
+<?php 
+$title = "Add New License";
+$this->headtitle($title);
+
+$form->setAttribute('action', $this->url('dog/license', ['action' => 'create']));
+$form->prepare();
+
+echo $this->partial('dog/partial/licenseform.phtml', ['title' => $title, 'form' => $form]);
+?>

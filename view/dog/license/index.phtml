@@ -1,0 +1,27 @@
+<div class="container">
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Tag Number</th>
+			<th>Status</th>
+			<th>Date Created</th>
+			<th>Date Modified</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->licenses as $license) : ?>
+		<tr>
+			<td>
+				<?php $url = $this->url('dog/license',['action' => 'update','uuid' => $license['UUID']]); ?>
+				<a href="<?php echo $url; ?>"><?php echo $license['TAG']; ?></a>
+			</td>
+			<td><?php echo $license['STATUS']; ?></td>
+			<td><?php echo $license['DATE_CREATED']; ?></td>
+			<td><?php echo $license['DATE_MODIFIED']; ?></td>
+			<td><a href="<?php echo $this->url('dog/license', ['action' => 'delete', 'uuid' => $license['UUID']]); ?>">X</a></td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+	</table>
+</div>
