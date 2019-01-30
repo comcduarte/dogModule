@@ -17,6 +17,7 @@ use Dog\Form\Factory\BreedFormFactory;
 use Dog\Form\Factory\DogCodeFormFactory;
 use Dog\Form\Factory\DogFormFactory;
 use Dog\Form\Factory\DogUsersFormFactory;
+use Dog\Form\Factory\LicenseFormFactory;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 

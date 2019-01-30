@@ -47,7 +47,9 @@ class LicenseController extends AbstractActionController
                 
                 $model->create();
                 
-                return $this->redirect()->toRoute('dog/license');
+                //-- Return to previous screen --//
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
         }
         
@@ -60,7 +62,9 @@ class LicenseController extends AbstractActionController
     {
         $uuid = $this->params()->fromRoute('uuid',0);
         if (!$uuid) {
-            return $this->redirect()->toRoute('dog/breed');
+            //-- Return to previous screen --//
+            $url = $this->getRequest()->getHeader('Referer')->getUri();
+            return $this->redirect()->toUrl($url);
         }
         
         $model = new LicenseModel($this->adapter);
@@ -79,7 +83,9 @@ class LicenseController extends AbstractActionController
             
             if ($this->form->isValid()) {
                 $model->update();
-                return $this->redirect()->toRoute('dog/license');
+                //-- Return to previous screen --//
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
         }
         
@@ -100,6 +106,8 @@ class LicenseController extends AbstractActionController
         $model->read(['UUID' => $uuid]);
         $model->delete();
         
-        return $this->redirect()->toRoute('dog/license');
+        //-- Return to previous screen --//
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
     }
 }

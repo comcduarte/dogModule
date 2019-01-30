@@ -9,9 +9,14 @@ $form->prepare();
 	<div class="row">
 <?
 echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]);
-
-echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners_users, 'form' => $this->owners_form, 'dog' => $this->uuid]);
 ?>
+		<div class="col">
+<?php
+echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners_users, 'form' => $this->owners_form, 'dog' => $this->uuid]);
+
+echo $this->partial('dog/partial/licenses.phtml', ['licenses' => $this->licenses, 'form' => $this->licenses_form, 'dog' => $this->uuid]);
+?>
+		</div>
 	</div>
 </div>
 

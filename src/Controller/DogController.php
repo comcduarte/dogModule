@@ -1,16 +1,17 @@
 <?php 
 namespace Dog\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Db\Adapter\AdapterAwareTrait;
+use Annotation\Model\AnnotationModel;
 use Dog\Model\DogModel;
+use Dog\Model\LicenseModel;
 use Midnet\Model\Uuid;
+use User\Model\UserModel;
+use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Predicate\Like;
-use Annotation\Model\AnnotationModel;
-use User\Model\UserModel;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Select;
+use Zend\Mvc\Controller\AbstractActionController;
 
 class DogController extends AbstractActionController
 {
@@ -18,6 +19,7 @@ class DogController extends AbstractActionController
     
     public $form;
     public $DogUsersForm;
+    public $licenseForm;
     
     public function indexAction()
     {
@@ -129,6 +131,12 @@ class DogController extends AbstractActionController
         
         //-- END: Retrieve Owners --//
         
+        //-- BEGIN: Retrieve Licenses --//
+        $where = new Where();
+        $licenseModel = new LicenseModel($this->adapter);
+        $licenses = $licenseModel->fetchAll($where->equalTo('DOG', $uuid), ['YEAR']);
+        //-- END: Retrieve Licenses --//
+        
         return ([
             'annotations' => $notes,
             'form' => $this->form,
@@ -138,6 +146,8 @@ class DogController extends AbstractActionController
             'annotations_user' => '',
             'owners_users' => $owners_users,
             'owners_form' => $this->DogUsersForm,
+            'licenses' => $licenses,
+            'licenses_form' => $this->licenseForm,
         ]);
     }
     

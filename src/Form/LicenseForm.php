@@ -5,6 +5,7 @@ use Zend\Form\Form;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Submit;
+use Zend\Form\Element\Hidden;
 
 class LicenseForm extends Form
 {
@@ -20,6 +21,15 @@ class LicenseForm extends Form
             ],
             'options' => [
                 'label' => 'Tag Number',
+            ],
+        ]);
+        
+        $this->add([
+            'name' => 'DOG',
+            'type' => Hidden::class,
+            'attributes' => [
+                'id' => 'DOG',
+                'class' => 'form-control',
             ],
         ]);
         

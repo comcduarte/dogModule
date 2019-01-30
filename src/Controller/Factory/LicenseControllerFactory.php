@@ -12,9 +12,7 @@ class LicenseControllerFactory implements FactoryInterface
     {
         $controller = new LicenseController();
         $controller->setDbAdapter($container->get('dog-model-primary-adapter'));
-        $form = new LicenseForm();
-        $form->initialize();
-        $controller->form = $form;
+        $controller->form = $container->get('FormElementManager')->get(LicenseForm::class);
         
         return $controller;
     }
