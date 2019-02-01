@@ -1,17 +1,20 @@
 <?php 
 namespace Dog\Form;
 
+use Dog\Model\DogModel;
+use Midnet\Form\Element\DatabaseSelectObject;
 use Zend\Form\Form;
 use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Date;
-use Zend\Form\Element\Select;
+use Zend\Form\Element\Radio;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
-use Zend\Form\Element\Radio;
-use Dog\Model\DogModel;
+use Zend\Db\Adapter\AdapterAwareTrait;
 
 class DogForm extends Form
 {
+    use AdapterAwareTrait;
+    
     public function initialize()
     {
         $this->add([
@@ -27,19 +30,22 @@ class DogForm extends Form
             ],
         ]);
         
-        $this->add([
-            'name' => 'BREED',
-            'type' => Select::class,
-            'attributes' => [
-                'id' => 'BREED',
-                'class' => 'form-control',
-                'required' => 'true',
-            ],
-            'options' => [
-                'label' => 'Breed',
-                'value_options' => [],
-            ],
+        $breed = new DatabaseSelectObject('BREED');
+        $breed->setName('BREED');
+        $breed->setDbAdapter($this->adapter);
+        $breed->setAttributes([
+            'id' => 'BREED',
+            'class' => 'form-control',
+            'required' => 'true',
         ]);
+        $breed->setOptions([
+            'database_table' => 'dog_breeds',
+            'database_id_column' => 'UUID',
+            'database_value_column' => 'BREED',
+            'label' => 'Breed',
+        ]);
+        $breed->populateElement();
+        $this->add($breed);
         
         $this->add([
             'name' => 'SEX',

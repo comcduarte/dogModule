@@ -22,7 +22,7 @@
     	<tbody>
     	<?php foreach ($this->licenses as $license) : ?>
     		<tr>
-    			<td><a href="<?php echo $this->url('dog/license', ['action' => 'update','uuid' => $license['DOG']]); ?>"><?=$license['TAG']?></a></td>
+    			<td><a href="<?php echo $this->url('dog/license', ['action' => 'update','uuid' => $license['UUID']]); ?>"><?=$license['TAG']?></a></td>
     			<td><?=$license['YEAR']?></td>
     			<td><?=$license['STATUS']?></td>
     			<td>

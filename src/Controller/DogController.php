@@ -85,7 +85,9 @@ class DogController extends AbstractActionController
             
             if ($this->form->isValid()) {
                 $model->update();
-                return $this->redirect()->toRoute('dog/dog');
+                
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
         }
         

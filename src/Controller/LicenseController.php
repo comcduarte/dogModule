@@ -6,6 +6,9 @@ use Midnet\Model\Uuid;
 use Zend\Db\Adapter\AdapterAwareTrait;
 use Zend\Db\Sql\Where;
 use Zend\Mvc\Controller\AbstractActionController;
+use Dog\Model\DogModel;
+use Dog\Form\DogUsersForm;
+use Dog\Form\DogForm;
 
 class LicenseController extends AbstractActionController
 {
@@ -89,9 +92,28 @@ class LicenseController extends AbstractActionController
             }
         }
         
+        $DogModel = new DogModel($this->adapter);
+        $dog = $DogModel->read(['UUID' => $model->DOG]);
+        $owners = $dog->getOwners();
+        
+        $owners_form = new DogUsersForm('dog_owners_form');
+        $owners_form->setDbAdapter($this->adapter);
+        $owners_form->initialize();
+        
+        $dog_form = new DogForm('dog_form');
+        $dog_form->setAttribute('action', $this->url()->fromRoute('dog/dog', ['action' => 'update', 'uuid' => $dog->UUID]));
+        $dog_form->setDbAdapter($this->adapter);
+        $dog_form->initialize();
+        $dog_form->bind($dog);
+        $dog_form->get('SUBMIT')->setAttribute('value','Update');
+        
         return ([
             'form' => $this->form,
             'uuid' => $uuid,
+            'owners' => $owners,
+            'owners_form' => $owners_form,
+            'dog' => $dog->getArrayCopy(),
+            'dog_form' => $dog_form,
         ]);
     }
     
