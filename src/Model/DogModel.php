@@ -7,6 +7,9 @@ use RuntimeException;
 use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Delete;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Predicate\Like;
+use User\Model\UserModel;
 
 class DogModel extends DatabaseObject
 {
@@ -81,5 +84,27 @@ class DogModel extends DatabaseObject
             return $e;
         }
         return $this;
+    }
+    
+    public function getOwners()
+    {
+        $sql = new Sql($this->dbAdapter);
+        
+        $select = new Select();
+        $select->columns(['USER']);
+        $select->from('dog_users');
+        $select->where([new Like('DOG', $this->UUID)]);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $owners = $statement->execute();
+        
+        $owners_users = [];
+        foreach ($owners as $owner) {
+            $user = new UserModel($this->dbAdapter);
+            $user->read(['UUID' => $owner['USER']]);
+            $owners_users[] = $user->getArrayCopy();
+        }
+        
+        return $owners_users;
     }
 }
