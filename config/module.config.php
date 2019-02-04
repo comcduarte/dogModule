@@ -89,7 +89,7 @@ return [
             'dog/breed' => ['index', 'create', 'update', 'delete'],
             'dog/code' => ['index', 'create', 'update', 'delete'],
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser'],
-            'dog/license' => ['index', 'create', 'update', 'delete'],
+            'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode'],
         ],
     ],
     'controllers' => [

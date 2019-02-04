@@ -9,6 +9,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Dog\Model\DogModel;
 use Dog\Form\DogUsersForm;
 use Dog\Form\DogForm;
+use Dog\Form\LicenseCodesForm;
 
 class LicenseController extends AbstractActionController
 {
@@ -107,6 +108,11 @@ class LicenseController extends AbstractActionController
         $dog_form->bind($dog);
         $dog_form->get('SUBMIT')->setAttribute('value','Update');
         
+        $codes = $model->getCodes();
+        $codes_form = new LicenseCodesForm('code_form');
+        $codes_form->setDbAdapter($this->adapter);
+        $codes_form->initialize();
+        
         return ([
             'form' => $this->form,
             'uuid' => $uuid,
@@ -114,6 +120,8 @@ class LicenseController extends AbstractActionController
             'owners_form' => $owners_form,
             'dog' => $dog->getArrayCopy(),
             'dog_form' => $dog_form,
+            'codes' => $codes,
+            'codes_form' => $codes_form,
         ]);
     }
     
@@ -127,6 +135,51 @@ class LicenseController extends AbstractActionController
         $model = new LicenseModel($this->adapter);
         $model->read(['UUID' => $uuid]);
         $model->delete();
+        
+        //-- Return to previous screen --//
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
+    }
+    
+    public function assigncodeAction()
+    {
+        $form = new LicenseCodesForm();
+        $form->setDbAdapter($this->adapter);
+        $form->initialize();
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            
+            if ($form->isValid()) {
+                $license = new LicenseModel($this->adapter);
+                
+                $data = $form->getData();
+                $code_uuid = $data['CODE'];
+                $license_uuid = $data['LICENSE'];
+                
+                $license->read(['UUID' => $license_uuid]);
+                $license->assignCode($code_uuid);
+            }
+        }
+        
+        //-- Return to previous screen --//
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
+    }
+    
+    public function unassigncodeAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $data = $request->getPost();
+            
+            $model = new LicenseModel($this->adapter);
+            $model->read(['UUID' => $data['LICENSE']]);
+            $model->unassignCode($data['CODE']);
+            
+        }
+        
         
         //-- Return to previous screen --//
         $url = $this->getRequest()->getHeader('Referer')->getUri();

@@ -10,6 +10,7 @@ $form->prepare();
 	<div class="row">
 		<div class="col">
 			<?php echo $this->partial('dog/partial/licenseform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
+			<?php echo $this->partial('dog/partial/license_codes.phtml', ['title' => "Codes", 'license_uuid' => $this->uuid, 'codes' => $this->codes, 'form' => $this->codes_form]); ?>
 		</div>
 		<div class="col">
 			<?php echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners, 'form' => $this->owners_form, 'dog' => $this->dog['UUID']]); ?>

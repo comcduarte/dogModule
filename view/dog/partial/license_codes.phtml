@@ -1,0 +1,55 @@
+<div class="col">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h3><?php echo $this->title; ?></h3>
+			</div>
+			<div class="d-flex justify-content-end">
+				<a href="" class="btn btn-primary btn-rounded mb-4" data-toggle="modal" data-target="#modalLicenseCodeForm">Add Code</a>
+			</div>
+		</div>
+	</div>
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Code</th>
+				<th>Description</th>
+				<th />
+			</tr>
+		</thead>
+		
+		<tbody>
+		<?php foreach ($this->codes as $uuid => $code) : ?>
+			<tr>
+				<td><?=$code['CODE']?></td>
+				<td><?=$code['DESCRIPTION']?></td>
+				<td>
+					<form method="POST" action="<?php echo $this->url('dog/license', ['action' => 'unassigncode']);?>">
+    					<input type="hidden" name="CODE" id="CODE" value="<?php echo $uuid; ?>">
+    					<input type="submit" name="SUBMIT" class="btn btn-danger btn-sm" id="SUBMIT" value="X">
+    				</form>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
+
+<div class="modal fade" id="modalLicenseCodeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<?php 
+		$form = $this->form;
+		$form->setAttribute('action', $this->url('dog/license', ['action' => 'assigncode']));
+		
+		$form->get('LICENSE')->setAttributes(['value' => $this->license_uuid]);
+		
+		echo $this->form()->openTag($form);
+		echo $this->formCollection($form);
+		echo $this->form()->closeTag($form);
+		?>
+		</div>
+	</div>
+</div>
+
