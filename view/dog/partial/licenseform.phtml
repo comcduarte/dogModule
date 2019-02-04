@@ -31,6 +31,9 @@ echo $this->form()->openTag($form);
     	<?php echo $this->formRow($form->get('PAYMENT_STATUS')); ?>
     </div>
     <div class="form-group">
+    	<?php echo $this->formRow($form->get('FEE')); ?>
+    </div>
+    <div class="form-group">
     	<?php echo $this->formRow($form->get('DOG')); ?>
     </div>
 <?php echo $this->form()->closeTag($form); ?>

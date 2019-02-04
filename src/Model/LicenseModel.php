@@ -10,6 +10,7 @@ class LicenseModel extends DatabaseObject
     public $DOG;
     public $PAYMENT_STATUS;
     public $STATUS;
+    public $FEE;
     public $YEAR;
     public $DATE_CREATED;
     public $DATE_MODIFIED;

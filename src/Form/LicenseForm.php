@@ -74,6 +74,19 @@ class LicenseForm extends Form
         ]);
         
         $this->add([
+            'name' => 'FEE',
+            'type' => Text::class,
+            'attributes' => [
+                'id' => 'FEE',
+                'class' => 'form-control',
+                'required' => 'true',
+            ],
+            'options' => [
+                'label' => 'License Fee',
+            ],
+        ]);
+        
+        $this->add([
             'name' => 'DOG',
             'type' => Hidden::class,
             'attributes' => [
