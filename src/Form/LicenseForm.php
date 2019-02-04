@@ -7,6 +7,7 @@ use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Hidden;
 use Zend\Form\Element\Select;
+use Dog\Model\LicenseModel;
 
 class LicenseForm extends Form
 {
@@ -48,6 +49,27 @@ class LicenseForm extends Form
             ],
             'options' => [
                 'label' => 'License Status',
+                'value_options' => [
+                    LicenseModel::INACTIVE_STATUS => 'Inactive',
+                    LicenseModel::ACTIVE_STATUS => 'Active',
+                ],
+            ],
+        ]);
+        
+        $this->add([
+            'name' => 'PAYMENT_STATUS',
+            'type' => Select::class,
+            'attributes' => [
+                'id' => 'PAYMENT_STATUS',
+                'class' => 'form-control',
+                'required' => 'true',
+            ],
+            'options' => [
+                'label' => 'Payment Status',
+                'value_options' => [
+                    '0' => 'Unpaid',
+                    '1' => 'Paid',
+                ],
             ],
         ]);
         

@@ -4,10 +4,16 @@ $this->headtitle($title);
 
 $form->setAttribute('action', $this->url('dog/license', ['action' => 'update', 'uuid' => $this->uuid]));
 $form->prepare();
-
-echo $this->partial('dog/partial/licenseform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]);
-
-echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners, 'form' => $this->owners_form, 'dog' => $this->dog['UUID']]);
-
-echo $this->partial('dog/partial/dogform.phtml', ['title' => 'Dog', 'form' => $this->dog_form, 'uuid' => $this->dog['UUID'], 'update' => TRUE]);
 ?>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<?php echo $this->partial('dog/partial/licenseform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
+		</div>
+		<div class="col">
+			<?php echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners, 'form' => $this->owners_form, 'dog' => $this->dog['UUID']]); ?>
+			<?php echo $this->partial('dog/partial/dogform.phtml', ['title' => 'Dog', 'form' => $this->dog_form, 'uuid' => $this->dog['UUID'], 'update' => TRUE]); ?>
+		</div>
+	</div>
+</div>

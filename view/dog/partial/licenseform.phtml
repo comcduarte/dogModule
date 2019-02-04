@@ -1,29 +1,37 @@
+<div class="col">
 <?php
 echo $this->form()->openTag($form);
 ?>
-<div class="container">
-	<div class="row">
-		<div class="col-sm-6">
-			<h3><?php echo $this->title; ?></h3>
-			
-			<!-- Hidden Elements -->
-			<div class="form-group">
-				<?php echo $this->formRow($form->get('SECURITY')); ?>
-			</div>
-			
-			<div class="form-group">
-				<?php echo $this->formRow($form->get('TAG')); ?>
-			</div>
-			<div class="form-group">
-				<?php echo $this->formRow($form->get('YEAR')); ?>
-			</div>
-			<div class="form-group">
-				<?php echo $this->formRow($form->get('DOG')); ?>
-			</div>
-			<div class="form-group">
-				<?php echo $this->formRow($form->get('SUBMIT')); ?>
-			</div>
-		</div>
-	</div>
-</div>
+    <div class="container">
+    	<div class="row">
+    		<div class="col">
+    			<h3><?php echo $this->title; ?></h3>
+    		</div>
+    		<div class="d-flex justify-content-end">
+    			<?php echo $this->formRow($form->get('SUBMIT')); ?>
+    		</div>
+    	</div>
+    </div>
+    
+    <!-- Hidden Elements -->
+    <div class="form-group">
+    	<?php echo $this->formRow($form->get('SECURITY')); ?>
+    </div>
+    
+    <div class="form-group">
+    	<?php echo $this->formRow($form->get('TAG')); ?>
+    </div>
+    <div class="form-group">
+    	<?php echo $this->formRow($form->get('YEAR')); ?>
+    </div>
+    <div class="form-group">
+    	<?php echo $this->formRow($form->get('STATUS')); ?>
+    </div>
+    <div class="form-group">
+    	<?php echo $this->formRow($form->get('PAYMENT_STATUS')); ?>
+    </div>
+    <div class="form-group">
+    	<?php echo $this->formRow($form->get('DOG')); ?>
+    </div>
 <?php echo $this->form()->closeTag($form); ?>
+</div>
