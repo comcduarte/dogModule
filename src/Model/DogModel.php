@@ -22,6 +22,7 @@ class DogModel extends DatabaseObject
     public $NAME;
     public $BREED;
     public $SEX;
+    public $DESCRIPTION;
     public $DATE_BIRTH;
     public $DATE_RABIESEXP;
     public $STATUS;

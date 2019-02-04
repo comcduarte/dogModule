@@ -10,6 +10,7 @@ use Zend\Form\Element\Radio;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
 use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Form\Element\Textarea;
 
 class DogForm extends Form
 {
@@ -90,6 +91,18 @@ class DogForm extends Form
                         ],
                     ],
                 ],
+            ],
+        ]);
+        
+        $this->add([
+            'name' => 'DESCRIPTION',
+            'type' => Textarea::class,
+            'attributes' => [
+                'id' => 'DESCRIPTION',
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Description',
             ],
         ]);
         
