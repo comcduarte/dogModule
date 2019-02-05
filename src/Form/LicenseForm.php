@@ -79,7 +79,6 @@ class LicenseForm extends Form
             'attributes' => [
                 'id' => 'FEE',
                 'class' => 'form-control',
-                'required' => 'true',
             ],
             'options' => [
                 'label' => 'License Fee',

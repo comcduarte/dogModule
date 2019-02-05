@@ -113,6 +113,41 @@ class LicenseController extends AbstractActionController
         $codes_form->setDbAdapter($this->adapter);
         $codes_form->initialize();
         
+        //-- Estimate License Fee --//
+        $license_fee = 0;
+        foreach ($codes as $code) {
+            if ($code['CODE'] == "GD") {
+                $gd = true;
+            }
+        }
+//         $gd = array_search('GD', $codes);
+        
+        
+        //-- Temporary test date --//
+//         $date = new \DateTime('2019-02-25 00:00:00', new \DateTimeZone('EDT'));
+        
+        $year = $model->YEAR;
+        $begin_registration = new \DateTime("$year-06-01 00:00:00",new \DateTimeZone('EDT'));
+        $months = $date->diff($begin_registration);
+//         $today = $date->format('Y-m-d H:i:s');
+        switch (true) {
+            case $gd:
+                $license_fee = 0;
+                break;
+            case $date < $begin_registration:
+                //-- Registering new dog before May --//
+                $license_fee = 8;
+                break;
+            case $date > $begin_registration:
+                $license_fee += 8;
+            case $months->format('%m') > 1:
+                $license_fee += ($months->format('%m'));
+                break;
+            default:
+                $license_fee = 0;
+                break;
+        }
+        
         return ([
             'form' => $this->form,
             'uuid' => $uuid,
@@ -122,6 +157,7 @@ class LicenseController extends AbstractActionController
             'dog_form' => $dog_form,
             'codes' => $codes,
             'codes_form' => $codes_form,
+            'license_fee' => $license_fee,
         ]);
     }
     
