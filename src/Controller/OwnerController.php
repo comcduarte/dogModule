@@ -1,14 +1,15 @@
 <?php 
 namespace Dog\Controller;
 
+use Annotation\Model\AnnotationModel;
+use Dog\Form\OwnerSearchForm;
 use Dog\Model\OwnerModel;
+use User\Form\UserForm;
+use User\Model\UserModel;
 use Zend\Db\Adapter\AdapterAwareTrait;
 use Zend\Db\Sql\Where;
-use Zend\Mvc\Controller\AbstractActionController;
-use User\Model\UserModel;
-use User\Form\UserForm;
-use Annotation\Model\AnnotationModel;
 use Zend\Db\Sql\Predicate\Like;
+use Zend\Mvc\Controller\AbstractActionController;
 
 class OwnerController extends AbstractActionController
 {
@@ -84,5 +85,28 @@ class OwnerController extends AbstractActionController
             'annotations_user' => '',
             'dogs' => $dogs,
         ];
+    }
+    
+    public function findAction()
+    {
+        $owner = new OwnerModel($this->adapter);
+        $form = new OwnerSearchForm();
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            
+            $data = $request->getPost();
+            $form->setData($data);
+            
+            if ($form->isValid()) {
+                $predicate = new Where();
+                $predicate->like('LNAME', '%' . $data['LNAME'] . '%');
+                $owners = $owner->fetchAll($predicate, ['LNAME']);
+            }
+        }
+        
+        return ([
+            'owners' => $owners,
+        ]);
     }
 }

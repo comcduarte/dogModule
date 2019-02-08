@@ -2,7 +2,7 @@
 $title = "Update Owner";
 $this->headtitle($title);
 
-$form->setAttribute('action', $this->url('dog/owner', ['controller' => 'user', 'action' => 'update', 'uuid' => $this->uuid]));
+$form->setAttribute('action', $this->url('dog/owner', ['action' => 'update', 'uuid' => $this->uuid]));
 $form->prepare();
 ?>
 <div class="row">

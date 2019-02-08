@@ -101,7 +101,7 @@ return [
             'dog/code' => ['index', 'create', 'update', 'delete'],
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser', 'import'],
             'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode'],
-            'dog/owner' => ['index', 'create', 'update', 'delete'],
+            'dog/owner' => ['index', 'create', 'update', 'delete', 'find'],
         ],
     ],
     'controllers' => [

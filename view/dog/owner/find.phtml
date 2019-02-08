@@ -1,0 +1,31 @@
+<div class="container">
+	<!-- Add News: WYSIWYG Edior -->
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Email Address</th>
+				<th>Status</th>
+				<th>Created</th>
+				<th>Modified</th>
+				<th />
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($owners as $user) : ?>
+			<tr>
+				<td><a href=<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>><?=$user['USERNAME']?></a></td>
+				<td><?=$user['EMAIL']?></td>
+				<td><?=$user['STATUS']?></td>
+				<td><?=$user['DATE_CREATED']?></td>
+				<td><?=$user['DATE_MODIFIED']?></td>
+				<td>
+					<a class="btn btn-info" href=<?php echo $this->url('user/default', ['controller'=>'user', 'action' => 'assign','uuid' => $user['UUID']]); ?>>Assign Role</a>
+					<a class="btn btn-danger" href=<?php echo $this->url('user/default', ['controller'=>'user', 'action' => 'delete','uuid' => $user['UUID']]); ?>>Delete</a>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+	<!-- / Add News: WYSIWYG Edior -->
+</div>
