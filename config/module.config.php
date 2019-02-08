@@ -20,6 +20,7 @@ use Dog\Form\Factory\DogUsersFormFactory;
 use Dog\Form\Factory\LicenseFormFactory;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
+use Dog\Controller\Factory\OwnerControllerFactory;
 
 return [
     'router' => [
@@ -76,6 +77,16 @@ return [
                             ],
                         ],
                     ],
+                    'owner' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/owner[/:action[/:uuid]]',
+                            'defaults' => [
+                                'controller' => OwnerController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -90,6 +101,7 @@ return [
             'dog/code' => ['index', 'create', 'update', 'delete'],
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser', 'import'],
             'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode'],
+            'dog/owner' => ['index', 'create', 'update', 'delete'],
         ],
     ],
     'controllers' => [
@@ -98,6 +110,7 @@ return [
             BreedController::class => BreedControllerFactory::class,
             DogCodeController::class => DogCodeControllerFactory::class,
             LicenseController::class => LicenseControllerFactory::class,
+            OwnerController::class => OwnerControllerFactory::class,
         ],
     ],
     'form_elements' => [
@@ -176,6 +189,22 @@ return [
                             [
                                 'label' => 'Add New License',
                                 'route' => 'dog/license',
+                                'action' => 'create',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Owner Maintenance',
+                        'route' => 'dog/owner',
+                        'class' => 'dropdown-submenu',
+                        'pages' => [
+                            [
+                                'label' => 'List Owners',
+                                'route' => 'dog/owner',
+                            ],
+                            [
+                                'label' => 'Add New Owner',
+                                'route' => 'dog/owner',
                                 'action' => 'create',
                             ],
                         ],

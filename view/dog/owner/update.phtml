@@ -1,0 +1,16 @@
+<?php 
+$title = "Update Owner";
+$this->headtitle($title);
+
+$form->setAttribute('action', $this->url('dog/owner', ['controller' => 'user', 'action' => 'update', 'uuid' => $this->uuid]));
+$form->prepare();
+?>
+<div class="row">
+	<div class="col">
+<?php echo $this->partial('user/partial/userform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
+	</div>
+	<div class="col">
+<?php echo $this->partial('dog/partial/dogs.phtml', ['dogs' => $this->dogs]); ?>
+	</div>
+</div>
+<?php echo $this->annotations()->setAnnotations($annotations)->render(); ?>
