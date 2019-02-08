@@ -1,0 +1,14 @@
+<?php 
+$title = "Update Dog";
+$this->headtitle($title);
+
+$form->setAttribute('action', $this->url('dog/dog', ['action' => 'import']));
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<div class="form-group">
+	<?php echo $this->formRow($form->get('SUBMIT')); ?>
+</div>
+<?php 
+echo $this->form()->closeTag($form);
+?>

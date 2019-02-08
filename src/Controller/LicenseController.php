@@ -115,6 +115,7 @@ class LicenseController extends AbstractActionController
         
         //-- Estimate License Fee --//
         $license_fee = 0;
+        $gd = false;
         foreach ($codes as $code) {
             if ($code['CODE'] == "GD") {
                 $gd = true;
