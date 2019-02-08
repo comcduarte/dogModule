@@ -21,7 +21,7 @@
     	<tbody>
     	<?php foreach ($this->owners as $user) : ?>
     		<tr>
-    			<td><a href="<?php echo $this->url('user/default', ['controller'=>'user', 'action' => 'update','uuid' => $user['UUID']]); ?>"><?=$user['FNAME']?></a></td>
+    			<td><a href="<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>"><?=$user['FNAME']?></a></td>
     			<td><?=$user['LNAME']?></td>
     			<td>
     				<form method="POST" action="<?php echo $this->url('dog/dog', ['action' => 'unassignuser']);?>">
