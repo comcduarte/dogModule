@@ -238,7 +238,7 @@ class DogController extends AbstractActionController
                 
                 $select = new Select();
                 $select->from('import');
-                $select->limit(10);
+//                 $select->limit(10);
                 
                 $statement = $sql->prepareStatementForSqlObject($select);
                 
@@ -303,61 +303,80 @@ class DogController extends AbstractActionController
                     $uuid = new Uuid();
                     $dog = new DogModel($this->adapter);
                     
-                    $dog->UUID = $uuid->value;
-                        
-                    $dog->NAME = $record['DOG NAME'];
-                    $dog->DESCRIPTION = $record['COLOR'] . "\r\n" . $record['BREED'];
-                    $dog->DATE_RABIESEXP = $record['RABIES EXP'];
-                    $dog->DATE_CREATED = $today;
-                    $dog->DATE_MODIFIED = $today;
-                    $dog->DATE_BIRTH = $year - $record['AGE'] . "-01-01 00:00:00";
+                    $rabies = new \DateTime($record['RABIES EXP'],new \DateTimeZone('EDT'));
+                    $rabies_formatted = $rabies->format('Y-m-d');
                     
-                    //-- Determine Dog Sex --//
-                    switch ($record['SEX']) {
-                        case 'M':
-                            $dog->SEX = $dog::MALE;
-                            break;
-                        case 'F':
-                            $dog->SEX = $dog::FEMALE;
-                            break;
-                        case 'N':
-                            $dog->SEX = $dog::NEUTERED;
-                            break;
-                        case 'S':
-                            $dog->SEX = $dog::SPAYED;
-                            break;
+                    $result = $dog->read([
+                        'NAME' => $record['DOG NAME'],
+                        'DATE_RABIESEXP' => $rabies_formatted,
+                    ]);
+                    
+                    if (is_null($result->UUID)) {
+                        $dog->UUID = $uuid->value;
+                        
+                        $dog->NAME = $record['DOG NAME'];
+                        $dog->DESCRIPTION = $record['COLOR'] . "\r\n" . $record['BREED'];
+                        $dog->DATE_RABIESEXP = $rabies_formatted;
+                        $dog->DATE_CREATED = $today;
+                        $dog->DATE_MODIFIED = $today;
+                        $dog->DATE_BIRTH = $year - $record['AGE'] . "-01-01 00:00:00";
+                        
+                        //-- Determine Dog Sex --//
+                        switch ($record['SEX']) {
+                            case 'M':
+                                $dog->SEX = $dog::MALE;
+                                break;
+                            case 'F':
+                                $dog->SEX = $dog::FEMALE;
+                                break;
+                            case 'N':
+                                $dog->SEX = $dog::NEUTERED;
+                                break;
+                            case 'S':
+                                $dog->SEX = $dog::SPAYED;
+                                break;
+                        }
+                        
+                        
+                        $dog->create();
+                        
+                        $dog->assignUser($owner->UUID);
                     }
                     
                     
-                    $dog->create();
                     
-                    $dog->assignUser($owner->UUID);
                     
                     $code = new DogCodeModel($this->adapter);
                     $code->read(['CODE' => $record['COD']]);
                     
                     //-- Add code to secondary Table --//
+                    $license = new LicenseModel($this->adapter);
+                    
                     
                     if ($record['TAG#'] != 0) {
-                        $uuid = new Uuid();
-                        $license = new LicenseModel($this->adapter);
+                        $result = $license->read(['TAG' => $record['TAG#']]);
                         
-                        $license->UUID = $uuid->value;
-                        $license->DATE_CREATED = $today;
-                        $license->DATE_MODIFIED = $today;
-                        $license->TAG = $record['TAG#'];
-                        $license->YEAR = "2018";
-                        $license->STATUS = $license::ACTIVE_STATUS;
-                        $license->PAYMENT_STATUS = $license::ACTIVE_STATUS;
-                        $license->DOG = $dog->UUID;
-                        $license->FEE = $record['FEE'];
-                        $license->assignCode($code->UUID);
-                        
-                        $license->create();
+                        if (is_null($result->UUID)) {
+                            $uuid = new Uuid();
+                            
+                            
+                            $license->UUID = $uuid->value;
+                            $license->DATE_CREATED = $today;
+                            $license->DATE_MODIFIED = $today;
+                            $license->TAG = $record['TAG#'];
+                            $license->YEAR = "2018";
+                            $license->STATUS = $license::ACTIVE_STATUS;
+                            $license->PAYMENT_STATUS = $license::ACTIVE_STATUS;
+                            $license->DOG = $dog->UUID;
+                            $license->FEE = $record['FEE'];
+                            
+                            if ($code->UUID) {
+                                $license->assignCode($code->UUID);
+                            }
+                            
+                            $license->create();
+                        }
                     }
-                    
-                    
-                    
                 }
             }
         }

@@ -3,8 +3,8 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Username</th>
-				<th>Email Address</th>
+				<th>Last Name</th>
+				<th>First Name</th>
 				<th>Status</th>
 				<th>Created</th>
 				<th>Modified</th>
@@ -14,8 +14,8 @@
 		<tbody>
 		<?php foreach ($owners as $user) : ?>
 			<tr>
-				<td><a href=<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>><?=$user['USERNAME']?></a></td>
-				<td><?=$user['EMAIL']?></td>
+				<td><a href=<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>><?=$user['LNAME']?></a></td>
+				<td><?=$user['FNAME']?></td>
 				<td><?=$user['STATUS']?></td>
 				<td><?=$user['DATE_CREATED']?></td>
 				<td><?=$user['DATE_MODIFIED']?></td>
