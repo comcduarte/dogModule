@@ -18,6 +18,7 @@ use RuntimeException;
 use Dog\Model\DogCodeModel;
 use Zend\Crypt\Password\Bcrypt;
 use User\Model\RoleModel;
+use Dog\Form\DogSearchForm;
 
 class DogController extends AbstractActionController
 {
@@ -213,6 +214,29 @@ class DogController extends AbstractActionController
         
         $url = $this->getRequest()->getHeader('Referer')->getUri();
         return $this->redirect()->toUrl($url);
+    }
+    
+    public function findAction() 
+    {
+        $dog = new DogModel($this->adapter);
+        $form = new DogSearchForm();
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            
+            $data = $request->getPost();
+            $form->setData($data);
+            
+            if ($form->isValid()) {
+                $predicate = new Where();
+                $predicate->like('NAME', '%' . $data['NAME'] . '%');
+                $dogs = $dog->fetchAll($predicate, ['NAME']);
+            }
+        }
+        
+        return ([
+            'dogs' => $dogs,
+        ]);
     }
     
     public function importAction()

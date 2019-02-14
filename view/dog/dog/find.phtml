@@ -1,0 +1,30 @@
+<div class="container">
+	<!-- Add News: WYSIWYG Edior -->
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Dog Name</th>
+				<th></th>
+				<th>Status</th>
+				<th>Created</th>
+				<th>Modified</th>
+				<th />
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($dogs as $dog) : ?>
+			<tr>
+				<td><a href=<?php echo $this->url('dog/dog', ['action' => 'update','uuid' => $dog['UUID']]); ?>><?=$dog['NAME']?></a></td>
+				<td></td>
+				<td><?=$dog['STATUS']?></td>
+				<td><?=$dog['DATE_CREATED']?></td>
+				<td><?=$dog['DATE_MODIFIED']?></td>
+				<td>
+					<a class="btn btn-danger" href=<?php echo $this->url('dog/dog', ['action' => 'delete','uuid' => $dog['UUID']]); ?>>Delete</a>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+	<!-- / Add News: WYSIWYG Edior -->
+</div>

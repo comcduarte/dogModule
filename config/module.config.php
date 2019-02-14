@@ -100,7 +100,7 @@ return [
             'dog' => ['index'],
             'dog/breed' => ['index', 'create', 'update', 'delete'],
             'dog/code' => ['index', 'create', 'update', 'delete'],
-            'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser', 'import'],
+            'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser', 'find', 'import'],
             'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode', 'license'],
             'dog/owner' => ['index', 'create', 'update', 'delete', 'find'],
         ],
