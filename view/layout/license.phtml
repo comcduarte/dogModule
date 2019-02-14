@@ -21,6 +21,21 @@
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
         ?>
+        <style type="text/css" media="screen">
+            #watermark
+            {
+                background: url(<?=$this->basePath('img/CitySeal_GS_LoRes.png')?>) no-repeat;
+                background-size: 150px 150px;
+                position: absolute;
+                top: 25px;
+                right: 50px;
+                height: 150px;
+                width: 150px;
+                z-index: -1;
+                opacity: 0.25;
+                -webkit-print-color-adjust: exact !important;
+            }
+        </style>
         <style type="text/css" media="print">
             #watermark
             {
