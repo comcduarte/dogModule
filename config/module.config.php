@@ -1,4 +1,5 @@
 <?php 
+namespace Dog;
 
 use Dog\Controller\BreedController;
 use Dog\Controller\DogCodeController;
@@ -100,7 +101,7 @@ return [
             'dog/breed' => ['index', 'create', 'update', 'delete'],
             'dog/code' => ['index', 'create', 'update', 'delete'],
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser', 'import'],
-            'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode'],
+            'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode', 'license'],
             'dog/owner' => ['index', 'create', 'update', 'delete', 'find'],
         ],
     ],
@@ -222,6 +223,9 @@ return [
         ],
     ],
     'view_manager' => [
+        'template_map' => [
+            'layout/license' => __DIR__ . '/../view/layout/license.phtml',
+        ],
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],

@@ -1,0 +1,45 @@
+<?= $this->doctype() ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle('ZF Skeleton Application')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+            ->prependStylesheet($this->basePath('css/style.css'), 'screen, print')
+            ->prependStylesheet($this->basePath('css/bootstrap.min.css'), 'screen, print')
+        ?>
+
+        <!-- Scripts -->
+        <?= $this->headScript()
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+        ?>
+        <style type="text/css" media="print">
+            #watermark
+            {
+                background: url(<?=$this->basePath('img/CitySeal_GS_LoRes.png')?>) no-repeat;
+                background-size: 150px 150px;
+                position: absolute;
+                top: 25px;
+                right: 50px;
+                height: 150px;
+                width: 150px;
+                z-index: -1;
+                opacity: 0.25;
+                -webkit-print-color-adjust: exact !important;
+            }
+        </style>
+        
+    </head>
+    <body>
+    	<?= $this->content ?>
+        <?= $this->inlineScript() ?>
+    </body>
+</html>

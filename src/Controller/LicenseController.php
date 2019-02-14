@@ -1,15 +1,16 @@
 <?php 
 namespace Dog\Controller;
 
+use Dog\Form\DogForm;
+use Dog\Form\DogUsersForm;
+use Dog\Form\LicenseCodesForm;
+use Dog\Model\DogModel;
 use Dog\Model\LicenseModel;
 use Midnet\Model\Uuid;
 use Zend\Db\Adapter\AdapterAwareTrait;
 use Zend\Db\Sql\Where;
 use Zend\Mvc\Controller\AbstractActionController;
-use Dog\Model\DogModel;
-use Dog\Form\DogUsersForm;
-use Dog\Form\DogForm;
-use Dog\Form\LicenseCodesForm;
+use Zend\View\Model\ViewModel;
 
 class LicenseController extends AbstractActionController
 {
@@ -221,5 +222,36 @@ class LicenseController extends AbstractActionController
         //-- Return to previous screen --//
         $url = $this->getRequest()->getHeader('Referer')->getUri();
         return $this->redirect()->toUrl($url);
+    }
+    
+    public function licenseAction()
+    {
+        zray_disable(true);
+        
+        $this->layout('layout/license');
+        $view = new ViewModel();
+        
+        $uuid = $this->params()->fromRoute('uuid', 0);
+        if (!$uuid) {
+            return $this->redirect()->toRoute('dog/license');
+        }
+        
+        $license = new LicenseModel($this->adapter);
+        $license->read(['UUID' => $uuid]);
+        $codes = $license->getCodes();
+        
+        $dog = new DogModel($this->adapter);
+        $dog->read(['UUID' => $license->DOG]);
+        
+        $owners = $dog->getOwners();
+        
+        $view->setVariables([
+            'license' => $license,
+            'codes' => $codes,
+            'dog' => $dog,
+            'owners' => $owners,
+        ]);
+        
+        return $view;
     }
 }

@@ -1,0 +1,22 @@
+<style type="text/css" media="screen, print">
+    @page
+    {
+        size: auto;
+        margin: 25px;
+    }
+    
+
+</style>
+<div class="border border-dark" style="position: absolute; top: 0px;">
+	<?php echo $this->partial('dog/license/partials/license.phtml', ['license' => $this->license, 'dog' => $this->dog, 'owners' => $this->owners, 'codes' => $this->codes]); ?>
+</div>
+<div class="border border-dark" style="position: absolute; top: 450px;">
+	<?php echo $this->partial('dog/license/partials/license.phtml', ['license' => $this->license, 'dog' => $this->dog, 'owners' => $this->owners, 'codes' => $this->codes]); ?>
+</div>
+<div class="border border-dark" style="position: absolute; top: 900px;">
+	<?php echo $this->partial('dog/license/partials/license.phtml', ['license' => $this->license, 'dog' => $this->dog, 'owners' => $this->owners, 'codes' => $this->codes]); ?>
+</div>
+<script type="text/javascript">
+	window.print();
+	window.close();
+</script>
