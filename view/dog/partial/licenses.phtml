@@ -26,11 +26,7 @@
     			<td><?=$license['YEAR']?></td>
     			<td><?=$license['STATUS']?></td>
     			<td>
-    				<form method="POST" action="<?php echo $this->url('dog/license', ['action' => 'index']);?>">
-    					<input type="hidden" name="DOG" id="DOG" value="<?php echo $this->dog; ?>">
-    					<input type="hidden" name="USER" id="USER" value="<?php echo $license['UUID']; ?>">
-    					<input type="submit" name="SUBMIT" class="btn btn-danger btn-sm" id="SUBMIT" value="X">
-    				</form>
+    				<a href="<?=$this->url('dog/license', ['action' => 'delete', 'uuid' => $license['UUID']])?>" class="btn btn-danger btn-sm">&times;</a>
     			</td>
     		</tr>
 		<?php endforeach; ?>

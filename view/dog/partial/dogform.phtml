@@ -8,7 +8,8 @@ echo $this->form()->openTag($form);
 				<h3><?php echo $this->title; ?></h3>
 			</div>
 			<div class="d-flex justify-content-end">
-				<?php echo $this->formRow($form->get('SUBMIT')); ?>
+				<?php echo $this->formRow($form->get('SUBMIT')); ?>&nbsp;
+				<a href="<?=$this->url('dog/dog', ['action' => 'delete', 'uuid' => $this->uuid])?>" class="btn btn-danger">Delete</a>
 			</div>
 		</div>
 	</div>
