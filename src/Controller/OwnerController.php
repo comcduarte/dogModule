@@ -46,7 +46,9 @@ class OwnerController extends AbstractActionController
             
             if ($form->isValid()) {
                 $owner->update();
-                return $this->redirect()->toRoute('dog/owner');
+                
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
             
         }

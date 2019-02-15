@@ -22,6 +22,8 @@ use Dog\Form\Factory\LicenseFormFactory;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Dog\Controller\Factory\OwnerControllerFactory;
+use Dog\Controller\ReportController;
+use Dog\Controller\Factory\ReportControllerFactory;
 
 return [
     'router' => [
@@ -88,6 +90,16 @@ return [
                             ],
                         ],
                     ],
+                    'report' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/report[/:action[/:uuid]]',
+                            'defaults' => [
+                                'controller' => ReportController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -103,6 +115,7 @@ return [
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser', 'find', 'import'],
             'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode', 'license'],
             'dog/owner' => ['index', 'create', 'update', 'delete', 'find'],
+            'dog/report' => ['index', 'create', 'update', 'delete', 'view'],
         ],
     ],
     'controllers' => [
@@ -112,6 +125,7 @@ return [
             DogCodeController::class => DogCodeControllerFactory::class,
             LicenseController::class => LicenseControllerFactory::class,
             OwnerController::class => OwnerControllerFactory::class,
+            ReportController::class => ReportControllerFactory::class,
         ],
     ],
     'form_elements' => [
@@ -211,7 +225,23 @@ return [
                         ],
                     ],
                 ],
-            ]
+            ],
+            [
+                'label' => 'Reports',
+                'route' => 'dog/report',
+                'class' => 'dropdown',
+                'pages' => [
+                    [
+                        'label' => 'Available Reports',
+                        'route' => 'dog/report',
+                    ],
+                    [
+                        'label' => 'Add New Report',
+                        'route' => 'dog/report',
+                        'action' => 'create',
+                    ],
+                ],
+            ],
         ],
     ],
     'service_manager' => [

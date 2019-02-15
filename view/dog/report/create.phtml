@@ -1,0 +1,9 @@
+<?php 
+$title = "Add New Report";
+$this->headtitle($title);
+
+$form->setAttribute('action', $this->url('dog/report', ['action' => 'create']));
+$form->prepare();
+
+echo $this->partial('dog/report/partial/reportform.phtml', ['title' => $title, 'form' => $form])
+?>

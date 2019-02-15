@@ -1,0 +1,23 @@
+<div class="container">
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Report Name</th>
+			<th>View File</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->reports as $report) : ?>
+		<tr>
+			<td>
+				<?php $url = $this->url('dog/report',['action' => 'view','uuid' => $report['UUID']]); ?>
+				<a href="<?php echo $url; ?>"><?php echo $report['NAME']; ?></a>
+			</td>
+			<td><?php echo $report['VIEW']; ?></td>
+			<td><a href="<?php echo $this->url('dog/report', ['action' => 'delete', 'uuid' => $report['UUID']]); ?>">X</a></td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+	</table>
+</div>
