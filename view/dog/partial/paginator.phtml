@@ -1,46 +1,46 @@
 <?php if ($this->pageCount): ?>
 
-<nav>
-<ul class="pagination">
+<nav aria-label="Page Navigation">
+	<ul class="pagination justify-content-center">
 
 <!-- Previous page link -->
 <?php if (isset($this->previous)): ?>
-    <li>
-      <a href="<?= $this->url($this->route, ['action' => 'index', 'page'=>$this->previous, 'count' => $this->count]); ?>" aria-label="Previous">
+    <li class="page-item">
+      <a class="page-link" href="<?= $this->url($this->route, ['action' => 'index', 'page'=>$this->previous, 'count' => $this->count]); ?>" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>  
 <?php else: ?>
-    <li>
-        <span aria-hidden="true">&laquo;</span>      
+    <li class="page-item disabled">
+        <a class="page-link" aria-disabled="true">&laquo;</a>      
     </li>  
 <?php endif; ?>
 
 <!-- Numbered page links -->
 <?php foreach ($this->pagesInRange as $page): ?>
   <?php if ($page != $this->current): ?>
-    <li>
-        <a href="<?= $this->url($this->route, ['action' => 'index', 'page'=>$page, 'count' => $this->count]); ?>"><?= $this->escapeHtml($page); ?></a>
+    <li class="page-item">
+        <a class="page-link" href="<?= $this->url($this->route, ['action' => 'index', 'page'=>$page, 'count' => $this->count]); ?>"><?= $this->escapeHtml($page); ?></a>
     </li>    
   <?php else: ?>
-    <li>
-        <span aria-hidden="true"><b><?= $this->escapeHtml($page); ?></b></span> 
+    <li class="page-item active">
+        <a class="page-link" href="#" aria-disabled="true"><b><?= $this->escapeHtml($page); ?></b></a> 
     </li>    
   <?php endif; ?>
 <?php endforeach; ?>
 
 <!-- Next page link -->
 <?php if (isset($this->next)): ?>
-    <li>
-      <a href="<?php echo $this->url($this->route, ['action' => 'index', 'page'=>$this->next, 'count' => $this->count]); ?>" aria-label="Next">
+    <li class="page-item">
+      <a class="page-link" href="<?php echo $this->url($this->route, ['action' => 'index', 'page'=>$this->next, 'count' => $this->count]); ?>" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>  
 <?php else: ?>
-    <li>
-        <span aria-hidden="true">&raquo;</span>      
+    <li class="page-item disabled">
+        <a class="page-link" href="#" aria-disabled="true">&raquo;</a>      
     </li> 
 <?php endif; ?>
-</ul>
+	</ul>
 </nav>
 <?php endif; ?>
