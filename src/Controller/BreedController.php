@@ -4,8 +4,11 @@ namespace Dog\Controller;
 use Dog\Model\BreedModel;
 use Midnet\Model\Uuid;
 use Zend\Db\Adapter\AdapterAwareTrait;
-use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
 
 class BreedController extends AbstractActionController
 {
@@ -17,10 +20,23 @@ class BreedController extends AbstractActionController
     {
         $breed = new BreedModel($this->adapter);
         $where = new Where();
-        $breeds = $breed->fetchAll($where,['BREED']);
+        
+        
+        $select = new Select();
+        $select->from($breed->getTableName());
+        $select->where($where);
+        $select->order(['BREED']);
+        
+        $paginator = new Paginator(new DbSelect($select, $this->adapter));
+        $paginator->setDefaultScrollingStyle('All');
+        
+        $count = $this->params()->fromRoute('count', 15);
+        
+        $paginator->setCurrentPageNumber($this->params()->fromRoute('page', 1));
+        $paginator->setItemCountPerPage($count);
         
         return ([
-            'breeds' => $breeds,
+            'breeds' => $paginator,
         ]);
     }
     

@@ -24,4 +24,5 @@
 		<?php endforeach; ?>
 	</tbody>
 	</table>
+	<?php echo $this->paginationControl($this->licenses, 'Sliding', '/dog/partial/paginator.phtml', ['count' => $this->count]) ?>
 </div>

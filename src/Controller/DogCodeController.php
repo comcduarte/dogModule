@@ -1,11 +1,14 @@
 <?php 
 namespace Dog\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Db\Adapter\AdapterAwareTrait;
 use Dog\Model\DogCodeModel;
-use Zend\Db\Sql\Where;
 use Midnet\Model\Uuid;
+use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Where;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
 
 class DogCodeController extends AbstractActionController
 {
@@ -17,10 +20,22 @@ class DogCodeController extends AbstractActionController
     {
         $code = new DogCodeModel($this->adapter);
         $where = new Where();
-        $codes = $code->fetchAll($where, ['CODE']);
+        
+        $select = new Select();
+        $select->from($code->getTableName());
+        $select->where($where);
+        $select->order(['CODE']);
+        
+        $paginator = new Paginator(new DbSelect($select, $this->adapter));
+        $paginator->setDefaultScrollingStyle('All');
+        
+        $count = $this->params()->fromRoute('count', 15);
+        
+        $paginator->setCurrentPageNumber($this->params()->fromRoute('page', 1));
+        $paginator->setItemCountPerPage($count);
         
         return ([
-            'codes' => $codes,
+            'codes' => $paginator,
         ]);
     }
     

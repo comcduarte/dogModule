@@ -43,60 +43,84 @@ return [
                     'breed' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/breed[/:action[/:uuid]]',
+                            'route' => '/breed/[:action/[id/:uuid]][page/:page][/:count]',
                             'defaults' => [
                                 'controller' => BreedController::class,
-                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                                'uuid' => '[a-f0-9-]+',
+                                'count' => '[0-9]+',
                             ],
                         ],
                     ],
                     'code' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/code[/:action[/:uuid]]',
+                            'route' => '/code/[:action/[id/:uuid]][page/:page][/:count]',
                             'defaults' => [
                                 'controller' => DogCodeController::class,
-                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                                'uuid' => '[a-f0-9-]+',
+                                'count' => '[0-9]+',
                             ],
                         ],
                     ],
                     'dog' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/dog[/:action[/:uuid]]',
+                            'route' => '/dog/[:action/[id/:uuid]][page/:page][/:count]',
                             'defaults' => [
                                 'controller' => DogController::class,
-                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                                'uuid' => '[a-f0-9-]+',
+                                'count' => '[0-9]+',
                             ],
                         ],
                     ],
                     'license' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/license[/:action[/:uuid]]',
+                            'route' => '/license/[:action/[id/:uuid]][page/:page][/:count]',
                             'defaults' => [
                                 'controller' => LicenseController::class,
-                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                                'uuid' => '[a-f0-9-]+',
+                                'count' => '[0-9]+',
                             ],
                         ],
                     ],
                     'owner' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/owner[/:action[/:uuid]]',
+                            'route' => '/owner/[:action/[id/:uuid]][page/:page][/:count]',
                             'defaults' => [
                                 'controller' => OwnerController::class,
-                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                                'uuid' => '[a-f0-9-]+',
+                                'count' => '[0-9]+',
                             ],
                         ],
                     ],
                     'report' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/report[/:action[/:uuid]]',
+                            'route' => '/report/[:action/[id/:uuid]][page/:page][/:count]',
                             'defaults' => [
                                 'controller' => ReportController::class,
-                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                                'uuid' => '[a-f0-9-]+',
+                                'count' => '[0-9]+',
                             ],
                         ],
                     ],

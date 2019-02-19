@@ -5,9 +5,12 @@ use Dog\Form\ReportForm;
 use Dog\Model\ReportModel;
 use Midnet\Model\Uuid;
 use Zend\Db\Adapter\AdapterAwareTrait;
-use Zend\Mvc\Controller\AbstractActionController;
-use RuntimeException;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
+use RuntimeException;
 
 class ReportController extends AbstractActionController
 {
@@ -16,10 +19,23 @@ class ReportController extends AbstractActionController
     public function indexAction()
     {
         $report = new ReportModel($this->adapter);
-        $reports = $report->fetchAll(new Where(), ['NAME']);
+        $where = new Where();
+        
+        $select = new Select();
+        $select->from($report->getTableName());
+        $select->where($where);
+        $select->order(['NAME']);
+        
+        $paginator = new Paginator(new DbSelect($select, $this->adapter));
+        $paginator->setDefaultScrollingStyle('All');
+        
+        $count = $this->params()->fromRoute('count', 15);
+        
+        $paginator->setCurrentPageNumber($this->params()->fromRoute('page', 1));
+        $paginator->setItemCountPerPage($count);
         
         return ([
-            'reports' => $reports,
+            'reports' => $paginator,
         ]);
     }
     

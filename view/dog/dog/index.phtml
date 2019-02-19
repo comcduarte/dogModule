@@ -1,4 +1,27 @@
+<?php
+use Zend\Form\Element\Select;
+use Zend\Form\Form;
+?>
 <div class="container">
+	<?php if (count($this->dogs)) : ?>
+	<div class="row">
+		<div class="col">
+			<?php 
+			$form = new Form();
+			
+			$select = new Select('NUMROWS');
+			$select->setLabel('Number of Rows');
+			$select->setValueOptions([
+			    '15' => '15',
+			    '25' => '25',
+			    '50' => '50',
+			    '100' => '100'
+			]);
+			
+			echo $this->formRow($select);
+			?>
+		</div>
+	</div>
 	<table class="table table-striped">
 	<thead>
 		<tr>
@@ -24,4 +47,6 @@
 		<?php endforeach; ?>
 	</tbody>
 	</table>
+	<?php endif; ?>
+	<?php echo $this->paginationControl($this->dogs, 'Sliding', '/dog/partial/paginator.phtml', ['count' => $this->count]) ?>
 </div>

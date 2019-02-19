@@ -8,8 +8,11 @@ use Dog\Model\DogModel;
 use Dog\Model\LicenseModel;
 use Midnet\Model\Uuid;
 use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
 use Zend\View\Model\ViewModel;
 
 class LicenseController extends AbstractActionController
@@ -22,10 +25,23 @@ class LicenseController extends AbstractActionController
     public function indexAction()
     {
         $model = new LicenseModel($this->adapter);
-        $licenses = $model->fetchAll(new Where(), ['TAG']);
+        $where = new Where();
+        
+        $select = new Select();
+        $select->from($model->getTableName());
+        $select->where($where);
+        $select->order(['TAG']);
+        
+        $paginator = new Paginator(new DbSelect($select, $this->adapter));
+        $paginator->setDefaultScrollingStyle('All');
+        
+        $count = $this->params()->fromRoute('count', 15);
+        
+        $paginator->setCurrentPageNumber($this->params()->fromRoute('page', 1));
+        $paginator->setItemCountPerPage($count);
         
         return ([
-            'licenses' => $licenses,
+            'licenses' => $paginator,
         ]);
     }
     

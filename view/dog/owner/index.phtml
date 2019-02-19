@@ -27,5 +27,5 @@
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-	<!-- / Add News: WYSIWYG Edior -->
+	<?php echo $this->paginationControl($this->owners, 'Sliding', '/dog/partial/paginator.phtml', ['count' => $this->count]) ?>
 </div>

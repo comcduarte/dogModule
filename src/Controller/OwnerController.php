@@ -7,9 +7,12 @@ use Dog\Model\OwnerModel;
 use User\Form\UserForm;
 use User\Model\UserModel;
 use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Predicate\Like;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
 
 class OwnerController extends AbstractActionController
 {
@@ -18,10 +21,23 @@ class OwnerController extends AbstractActionController
     public function indexAction()
     {
         $owner = new OwnerModel($this->adapter);
-        $owners = $owner->fetchAll(new Where(), ['LNAME']);
+        $where = new Where();
+        
+        $select = new Select();
+        $select->from($owner->getTableName());
+        $select->where($where);
+        $select->order(['LNAME']);
+        
+        $paginator = new Paginator(new DbSelect($select, $this->adapter));
+        $paginator->setDefaultScrollingStyle('All');
+        
+        $count = $this->params()->fromRoute('count', 15);
+        
+        $paginator->setCurrentPageNumber($this->params()->fromRoute('page', 1));
+        $paginator->setItemCountPerPage($count);
         
         return ([
-            'owners' => $owners,
+            'owners' => $paginator,
         ]);
     }
     
