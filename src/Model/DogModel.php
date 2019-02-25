@@ -3,13 +3,16 @@ namespace Dog\Model;
 
 use Midnet\Model\DatabaseObject;
 use Midnet\Model\Uuid;
-use RuntimeException;
-use Zend\Db\Sql\Insert;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Delete;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Predicate\Like;
 use User\Model\UserModel;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Delete;
+use Zend\Db\Sql\Insert;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Predicate\Like;
+use Zend\Db\Sql\Predicate\Predicate;
+use RuntimeException;
 
 class DogModel extends DatabaseObject
 {
@@ -35,6 +38,33 @@ class DogModel extends DatabaseObject
         
         $this->primary_key = 'UUID';
         $this->table = 'dogs';
+    }
+    
+    public function fetchAll(Predicate $predicate = NULL, array $order = [])
+    {
+        if ($predicate == null) {
+            $predicate = new Where();
+        }
+        
+        $sql = new Sql($this->dbAdapter);
+        
+        $select = new Select();
+        $select->from($this->table);
+        $select->join('dog_breeds', 'dogs.BREED = dog_breeds.UUID', ['BREED'], Select::JOIN_INNER);
+        $select->where($predicate);
+        $select->order($order);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $resultSet = new ResultSet();
+        try {
+            $results = $statement->execute();
+            $resultSet->initialize($results);
+        } catch (RuntimeException $e) {
+            return $e;
+        }
+        
+        return $resultSet->toArray();
+        
     }
     
     public function assignUser($user) 
@@ -107,5 +137,23 @@ class DogModel extends DatabaseObject
         }
         
         return $owners_users;
+    }
+    
+    public static function getGenderDescription($gender) 
+    {
+        switch ($gender) {
+            case DogModel::MALE:
+                return "Male";
+                break;
+            case DogModel::FEMALE:
+                return "Female";
+                break;
+            case DogModel::NEUTERED:
+                return "Neutered";
+                break;
+            case DogModel::SPAYED:
+                return "Spayed";
+                break;
+        }
     }
 }
