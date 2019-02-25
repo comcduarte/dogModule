@@ -24,6 +24,7 @@ use Zend\Router\Http\Segment;
 use Dog\Controller\Factory\OwnerControllerFactory;
 use Dog\Controller\ReportController;
 use Dog\Controller\Factory\ReportControllerFactory;
+use Dog\Controller\Factory\ConfigControllerFactory;
 
 return [
     'router' => [
@@ -60,6 +61,20 @@ return [
                             'route' => '/code/[:action/[id/:uuid]][page/:page][/:count]',
                             'defaults' => [
                                 'controller' => DogCodeController::class,
+                            ],
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                                'uuid' => '[a-f0-9-]+',
+                                'count' => '[0-9]+',
+                            ],
+                        ],
+                    ],
+                    'config' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/config/[:action/[id/:uuid]][page/:page][/:count]',
+                            'defaults' => [
+                                'controller' => ConfigController::class,
                             ],
                             'constraints' => [
                                 'page' => '[0-9]+',
@@ -136,6 +151,7 @@ return [
             'dog' => ['index'],
             'dog/breed' => ['index', 'create', 'update', 'delete'],
             'dog/code' => ['index', 'create', 'update', 'delete'],
+            'dog/config' => ['index', 'create', 'update', 'delete', 'import'],
             'dog/dog' => ['index', 'create', 'update', 'delete', 'assignuser', 'unassignuser', 'find', 'import'],
             'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode', 'license', 'find'],
             'dog/owner' => ['index', 'create', 'update', 'delete', 'find'],
@@ -146,6 +162,7 @@ return [
         'factories' => [
             DogController::class => DogControllerFactory::class,
             BreedController::class => BreedControllerFactory::class,
+            ConfigController::class => ConfigControllerFactory::class,
             DogCodeController::class => DogCodeControllerFactory::class,
             LicenseController::class => LicenseControllerFactory::class,
             OwnerController::class => OwnerControllerFactory::class,
@@ -265,6 +282,10 @@ return [
                         'action' => 'create',
                     ],
                 ],
+            ],
+            [
+                'label' => 'Configuration',
+                'route' => 'dog/config',
             ],
         ],
     ],
