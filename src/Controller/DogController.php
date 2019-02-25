@@ -21,6 +21,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\DbSelect;
 use RuntimeException;
+use Zend\View\Model\ViewModel;
+use Zend\Paginator\Adapter\ArrayAdapter;
 
 class DogController extends AbstractActionController
 {
@@ -251,9 +253,15 @@ class DogController extends AbstractActionController
             }
         }
         
-        return ([
-            'dogs' => $dogs,
+        $paginator = new Paginator(new ArrayAdapter($dogs));
+        
+        $view = new ViewModel([
+            'dogs' => $paginator,
+            'count' => 0,
         ]);
+        $view->setTemplate('dog/dog/index.phtml');
+        
+        return $view;
     }
     
     public function importAction()

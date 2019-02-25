@@ -1,34 +1,17 @@
 <?php
 use Zend\Form\Element\Select;
 use Zend\Form\Form;
+use Dog\Model\DogModel;
 ?>
 <div class="container">
 	<?php if (count($this->dogs)) : ?>
-	<div class="row">
-		<div class="col">
-			<?php 
-			$form = new Form();
-			
-			$select = new Select('NUMROWS');
-			$select->setLabel('Number of Rows');
-			$select->setValueOptions([
-			    '15' => '15',
-			    '25' => '25',
-			    '50' => '50',
-			    '100' => '100'
-			]);
-			
-			echo $this->formRow($select);
-			?>
-		</div>
-	</div>
 	<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>Dog Name</th>
-			<th>Status</th>
-			<th>Date Created</th>
-			<th>Date Modified</th>
+			<th>Breed</th>
+			<th>Sex</th>
+			<th>Description</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -39,9 +22,9 @@ use Zend\Form\Form;
 				<?php $url = $this->url('dog/dog',['action' => 'update','uuid' => $dog['UUID']]); ?>
 				<a href="<?php echo $url; ?>"><?php echo $dog['NAME']; ?></a>
 			</td>
-			<td><?php echo $dog['STATUS']; ?></td>
-			<td><?php echo $dog['DATE_CREATED']; ?></td>
-			<td><?php echo $dog['DATE_MODIFIED']; ?></td>
+			<td><?php echo $dog['BREED']; ?></td>
+			<td><?php echo DogModel::getGenderDescription($dog['SEX']); ?></td>
+			<td><?php echo $dog['DESCRIPTION']; ?></td>
 			<td><a href="<?php echo $this->url('dog/dog', ['action' => 'delete', 'uuid' => $dog['UUID']]); ?>">X</a></td>
 		</tr>
 		<?php endforeach; ?>
