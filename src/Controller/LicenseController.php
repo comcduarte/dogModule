@@ -13,7 +13,9 @@ use Zend\Db\Sql\Where;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\DbSelect;
+use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\View\Model\ViewModel;
+use Dog\Form\LicenseSearchForm;
 
 class LicenseController extends AbstractActionController
 {
@@ -42,6 +44,7 @@ class LicenseController extends AbstractActionController
         
         return ([
             'licenses' => $paginator,
+            'pageCount' => $count,
         ]);
     }
     
@@ -267,6 +270,38 @@ class LicenseController extends AbstractActionController
             'dog' => $dog,
             'owners' => $owners,
         ]);
+        
+        return $view;
+    }
+    
+    public function findAction()
+    {
+        $license = new LicenseModel($this->adapter);
+        $form = new LicenseSearchForm();
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            
+            $data = $request->getPost();
+            $form->setData($data);
+            
+            if ($form->isValid()) {
+                $where = new Where();
+                $where->like('TAG', $data['TAG']);
+                $where->like('YEAR', $data['YEAR']);
+                $licenses = $license->fetchAll($where, ['TAG']);
+            }
+            
+
+        }
+        
+        $paginator = new Paginator(new ArrayAdapter($licenses));
+        $paginator->setItemCountPerPage(0);
+        
+        $view = new ViewModel([
+            'licenses' => $paginator,
+        ]);
+        $view->setTemplate('dog/license/index.phtml');
         
         return $view;
     }

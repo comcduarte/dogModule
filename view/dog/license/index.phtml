@@ -3,6 +3,7 @@
 	<thead>
 		<tr>
 			<th>Tag Number</th>
+			<th>Year</th>
 			<th>Status</th>
 			<th>Date Created</th>
 			<th>Date Modified</th>
@@ -16,6 +17,7 @@
 				<?php $url = $this->url('dog/license',['action' => 'update','uuid' => $license['UUID']]); ?>
 				<a href="<?php echo $url; ?>"><?php echo $license['TAG']; ?></a>
 			</td>
+			<td><?php echo $license['YEAR']; ?></td>
 			<td><?php echo $license['STATUS']; ?></td>
 			<td><?php echo $license['DATE_CREATED']; ?></td>
 			<td><?php echo $license['DATE_MODIFIED']; ?></td>
@@ -24,5 +26,5 @@
 		<?php endforeach; ?>
 	</tbody>
 	</table>
-	<?php echo $this->paginationControl($this->licenses, 'Sliding', '/dog/partial/paginator.phtml', ['count' => $this->count]) ?>
+	<?php echo $this->paginationControl($this->licenses, 'Sliding', '/dog/partial/paginator.phtml', ['pageCount' => $this->pageCount]) ?>
 </div>
