@@ -1,1 +1,36 @@
-Hello World
+<?php
+$form = $this->importForm;
+$form->prepare();
+$form->setAttribute('action', $this->url('dog/config', ['action' => 'import']));
+echo $this->form()->openTag($form); 
+
+?>
+<div class="form-group">
+	<?php echo $this->formRow($form->get('SECURITY')); ?>
+</div>
+<div class="form-group">
+	<?php echo $this->formRow($form->get('FILE')); ?>
+</div>
+<div class="form-group">
+	<?php echo $this->formRow($form->get('SUBMIT')); ?>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
+
+
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('dog/config', ['action' => 'clear']));
+echo $this->form()->openTag($form); 
+?>
+<div class="form-group">
+	<?php echo $this->formRow($form->get('SECURITY')); ?>
+</div>
+<div class="form-group">
+	<?php echo $this->formRow($form->get('SUBMIT')->setAttribute('value', 'Clear')); ?>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
