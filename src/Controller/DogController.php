@@ -15,7 +15,6 @@ use Zend\Db\Sql\Predicate\Like;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
-use Zend\Paginator\Adapter\DbSelect;
 use Zend\View\Model\ViewModel;
 
 class DogController extends AbstractActionController
@@ -30,14 +29,13 @@ class DogController extends AbstractActionController
     {
         $dog = new DogModel($this->adapter);
         
+        
         $where = new Where();
+        $dogs = $dog->fetchAll($where, ['NAME']);
         
-        $select = new Select();
-        $select->from($dog->getTableName());
-        $select->where($where);
-        $select->order(['NAME']);
         
-        $paginator = new Paginator(new DbSelect($select, $this->adapter));
+        $paginator = new Paginator(new ArrayAdapter($dogs));
+        
         $paginator->setDefaultScrollingStyle('All');
         
         $count = $this->params()->fromRoute('count', 15);

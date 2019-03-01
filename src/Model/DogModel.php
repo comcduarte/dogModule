@@ -50,7 +50,7 @@ class DogModel extends DatabaseObject
         
         $select = new Select();
         $select->from($this->table);
-        $select->join('dog_breeds', 'dogs.BREED = dog_breeds.UUID', ['BREED'], Select::JOIN_INNER);
+        $select->join('dog_breeds', 'dogs.BREED = dog_breeds.UUID', ['BREED'], Select::JOIN_LEFT);
         $select->where($predicate);
         $select->order($order);
         
