@@ -8,7 +8,7 @@ $form->prepare();
 <div class="container">
 	<div class="row">
 <?
-echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]);
+echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE, 'breedForm' => $breedForm]);
 ?>
 		<div class="col">
 <?php

@@ -36,7 +36,7 @@ class DogForm extends Form
         $breed->setDbAdapter($this->adapter);
         $breed->setAttributes([
             'id' => 'BREED',
-            'class' => 'form-control',
+            'class' => 'custom-select',
             'required' => 'true',
         ]);
         $breed->setOptions([

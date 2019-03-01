@@ -22,9 +22,20 @@ echo $this->form()->openTag($form);
 	<div class="form-group">
 		<?php echo $this->formRow($form->get('NAME')); ?>
 	</div>
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('BREED')); ?>
-	</div>
+	
+	<?php 
+	$breed_field = $form->get('BREED'); 
+	$formLabel = $this->plugin('formLabel');
+	?>
+	<?php echo $formLabel->openTag() . $breed_field->getOption('label') . $formLabel->closeTag(); ?> 
+	<div class="input-group">
+		
+        
+            <?php echo $this->formSelect($breed_field); ?>
+            <div class="input-group-append">
+            	<button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAddBreedForm">Add</button>
+            </div>
+    </div>
 	<div class="form-group">
 		<?php echo $this->formRow($form->get('SEX')); ?>
 	</div>
@@ -39,4 +50,20 @@ echo $this->form()->openTag($form);
 	</div>
 
 <?php echo $this->form()->closeTag($form); ?>
+</div>
+
+<div class="modal fade" id="modalAddBreedForm" tabindex="-1" role="dialog" aria-labelledby="Add Breed Form" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<?php 
+		$form = $this->breedForm;
+		$form->setAttribute('action', $this->url('dog/breed', ['action' => 'create']));
+		echo $this->form()->openTag($form);
+		
+		echo $this->formCollection($form);
+		
+		echo $this->form()->closeTag($form);
+		?>
+		</div>
+	</div>
 </div>

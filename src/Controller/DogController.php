@@ -16,6 +16,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\View\Model\ViewModel;
+use Dog\Form\BreedForm;
 
 class DogController extends AbstractActionController
 {
@@ -157,8 +158,12 @@ class DogController extends AbstractActionController
         $licenses = $licenseModel->fetchAll($where->equalTo('DOG', $uuid), ['YEAR']);
         //-- END: Retrieve Licenses --//
         
+        $breedForm = new BreedForm();
+        $breedForm->init();
+        
         return ([
             'annotations' => $notes,
+            'breedForm' => $breedForm,
             'form' => $this->form,
             'uuid' => $uuid,
             'annotations_prikey' => $uuid,

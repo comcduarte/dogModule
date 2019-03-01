@@ -64,7 +64,9 @@ class BreedController extends AbstractActionController
                 
                 $breed->create();
                 
-                return $this->redirect()->toRoute('dog/breed');
+                //-- Return to previous screen --//
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
         }
         
@@ -96,7 +98,9 @@ class BreedController extends AbstractActionController
             
             if ($this->form->isValid()) {
                 $model->update();
-                return $this->redirect()->toRoute('dog/breed');
+                //-- Return to previous screen --//
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
         }
         
@@ -117,6 +121,8 @@ class BreedController extends AbstractActionController
         $model->read(['UUID' => $uuid]);
         $model->delete();
         
-        return $this->redirect()->toRoute('dog/breed');
+        //-- Return to previous screen --//
+        $url = $this->getRequest()->getHeader('Referer')->getUri();
+        return $this->redirect()->toUrl($url);
     }
 }
