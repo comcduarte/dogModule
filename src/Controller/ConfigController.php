@@ -1,8 +1,10 @@
 <?php 
 namespace Dog\Controller;
 
+use Annotation\Model\AnnotationModel;
 use Dog\Form\SubmitForm;
 use Dog\Form\UploadFileForm;
+use Dog\Model\BreedModel;
 use Dog\Model\DogCodeModel;
 use Dog\Model\DogModel;
 use Dog\Model\LicenseModel;
@@ -12,15 +14,8 @@ use User\Model\RoleModel;
 use User\Model\UserModel;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Db\Adapter\AdapterAwareTrait;
-use Zend\Db\Sql\Delete;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Sql;
-use Zend\Form\Form;
-use Zend\Form\Element\Submit;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use RuntimeException;
-use Annotation\Model\AnnotationModel;
 
 class ConfigController extends AbstractActionController
 {
@@ -45,9 +40,13 @@ class ConfigController extends AbstractActionController
     
     public function indexAction()
     {
-        $importForm = new UploadFileForm();
+        $importForm = new UploadFileForm('DOGS');
         $importForm->initialize();
         $importForm->addInputFilter();
+        
+        $breedForm = new UploadFileForm('BREEDS');
+        $breedForm->initialize();
+        $breedForm->addInputFilter();
         
         $form = new SubmitForm();
         $form->initialize();
@@ -55,10 +54,51 @@ class ConfigController extends AbstractActionController
         
         $view = new ViewModel([
             'importForm' => $importForm,
+            'breedForm' => $breedForm,
             'form' => $form,
         ]);
         
         return $view;
+    }
+    
+    public function breedimportAction()
+    {
+        $form = new UploadFileForm();
+        $form->initialize();
+        $form->addInputFilter();
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+                );
+            $form->setData($post);
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $breeds = file($data['FILE']['tmp_name']);
+                
+                $breed = new BreedModel($this->adapter);
+                $uuid = new Uuid();
+                $date = new \DateTime('now',new \DateTimeZone('EDT'));
+                $today = $date->format('Y-m-d H:i:s');
+                $empty = [];
+                
+                foreach ($breeds as $b) {
+                    $breed->exchangeArray($empty);
+                    
+                    $breed->UUID = $uuid->generate()->value;
+                    $breed->BREED = $b;
+                    $breed->DATE_CREATED = $today;
+                    $breed->DATE_MODIFIED = $today;
+                    $breed->STATUS = $breed::ACTIVE_STATUS;
+                    
+                    $breed->create();
+                }
+            }
+        }
+        $this->flashMessenger()->addSuccessMessage("Successfully imported breeds.");
+        return $this->redirect()->toRoute('dog/config');
     }
     
     public function importAction()
@@ -78,9 +118,11 @@ class ConfigController extends AbstractActionController
                 $data = $form->getData();
                 $this->flashMessenger()->addSuccessMessage('Successful Upload: ' . $data['FILE']['tmp_name']);
                 
-                //-- Create global objects once for record creation --//
+                /****************************************
+                 * Set Global Variables
+                 ****************************************/
                 $uuid = new Uuid();
-                $bcrypt = new Bcrypt();
+//                 $bcrypt = new Bcrypt();
                 $date = new \DateTime('now',new \DateTimeZone('EDT'));
                 $today = $date->format('Y-m-d H:i:s');
                 $year = $date->format('Y');
@@ -93,7 +135,6 @@ class ConfigController extends AbstractActionController
                 $empty = [];
                 
                 $role->read(['ROLENAME' => 'Owners']);
-                
                 
                 //-- Begin reading file line by line --//
                 $row = 0;
@@ -127,7 +168,8 @@ class ConfigController extends AbstractActionController
                             //-- Owner does not exist, create new one --//
                             $owner->UUID = $uuid->value;
                             $owner->USERNAME = substr($uuid->value, 0, 8);
-                            $owner->PASSWORD = $bcrypt->create(substr($uuid->value, 24, 12));
+                            //$owner->PASSWORD = $bcrypt->create(substr($uuid->value, 24, 12));
+                            $owner->PASSWORD = substr($uuid->value, 8, 8);
                             $owner->DATE_CREATED = $today;
                             $owner->DATE_MODIFIED = $today;
                             
@@ -214,7 +256,6 @@ class ConfigController extends AbstractActionController
                                     break;
                             }
                             
-                            
                             $dog->create();
                             
                             $dog->assignUser($owner->UUID);
@@ -250,15 +291,29 @@ class ConfigController extends AbstractActionController
                                 
                                 $license->create();
                             }
+                            
+                            if (!empty($record[$this::MEMO])) {
+                                $annotation->exchangeArray($empty);
+                                $annotation->UUID = $uuid->generate()->value;
+                                $annotation->TABLENAME = $license->getTableName();
+                                $annotation->USER = 'SYSTEM';
+                                $annotation->PRIKEY = $license->UUID;
+                                $annotation->ANNOTATION = "Memo: " . $record[$this::MEMO];
+                                $annotation->STATUS = $annotation::ACTIVE_STATUS;
+                                $annotation->DATE_CREATED = $today;
+                                $annotation->DATE_MODIFIED = $today;
+                                $annotation->create();
+                            }
                         }
                         
+                        $row++;
                         /****************************************
                          *            Temporary Break
                          ****************************************/
-                        $row++;
-                        if ($row >= 15) {
+                        if ($row >= 5) {
                             break;
                         }
+                        /****************************************/
                         
                     };
                     fclose($handle);
@@ -291,17 +346,33 @@ class ConfigController extends AbstractActionController
             $statement->execute();
         }
         
+        $bcrypt = new Bcrypt();
+        $uuid = new Uuid();
+        
         $user = new UserModel($this->adapter);
         $user->FNAME = 'Administrator';
         $user->USERNAME = 'Admin';
-        
-        $bcrypt = new Bcrypt();
-        $uuid = new Uuid();
         $user->PASSWORD = $bcrypt->create('admin');
         $user->UUID = $uuid->generate()->value;
         $user->STATUS = $user::ACTIVE_STATUS;
-        
         $user->create();
+        
+        $user = new UserModel($this->adapter);
+        $user->UUID = 'SYSTEM';
+        $user->FNAME = 'SYSTEM';
+        $user->USERNAME = 'SYSTEM';
+        $user->PASSWORD = $bcrypt->create('admin');
+        $user->STATUS = $user::ACTIVE_STATUS;
+        $user->create();
+        
+        
+        
+        $breed = new BreedModel($this->adapter);
+        $breed->UUID = $uuid->generate()->value;
+        $breed->BREED = "-- Unassigned --";
+        $breed->create();
+        
+        $this->flashMessenger()->addSuccessMessage("Successfully cleared tables");
         
         return $this->redirect()->toRoute('dog/config');
     }
@@ -309,191 +380,5 @@ class ConfigController extends AbstractActionController
     public function testfileAction()
     {
         
-    }
-    
-    public function oldimportAction()
-    {
-        $form = new Form();
-        $form->add([
-            'name' => 'SUBMIT',
-            'type' => Submit::class,
-            'attributes' => [
-                'value' => 'Submit',
-                'class' => 'btn btn-primary',
-                'id' => 'SUBMIT',
-            ],
-        ]);
-        
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($request->getPost());
-            
-            if ($form->isValid()) {
-                
-                $sql = new Sql($this->adapter);
-                
-                $select = new Select();
-                $select->from('import');
-                //                 $select->limit(10);
-                
-                $statement = $sql->prepareStatementForSqlObject($select);
-                
-                try {
-                    $resultSet = $statement->execute();
-                } catch (RuntimeException $e) {
-                    return $e;
-                }
-                
-                foreach ($resultSet as $record) {
-                    $uuid = new Uuid();
-                    $date = new \DateTime('now',new \DateTimeZone('EDT'));
-                    $today = $date->format('Y-m-d H:i:s');
-                    $year = $date->format('Y');
-                    
-                    
-                    
-                    $owner = new UserModel($this->adapter);
-                    $result = $owner->read([
-                        'LNAME' => $record['LNAME'],
-                        'FNAME' => $record['FNAME'],
-                        'ADDR1' => $record['ADDRESS'],
-                    ]);
-                    
-                    if (is_null($result->UUID)) {
-                        $bcrypt = new Bcrypt();
-                        //-- User does not exist --//
-                        
-                        //-- Create unavailable data for required fields --//
-                        $owner->UUID = $uuid->value;
-                        $owner->USERNAME = substr($uuid->value, 0, 8);
-                        $owner->PASSWORD = $bcrypt->create(substr($uuid->value, 24, 12));
-                        $owner->DATE_CREATED = $today;
-                        $owner->DATE_MODIFIED = $today;
-                        
-                        $owner->FNAME = $record['FNAME'];
-                        $owner->LNAME = $record['LNAME'];
-                        $owner->ADDR1 = $record['ADDRESS'];
-                        $owner->CITY = "Middletown";
-                        $owner->STATE = "CT";
-                        $owner->ZIP = "06457";
-                        
-                        //-- Ensure properly formatted phone --//
-                        $pattern = '/\((\d+)\) (\d+)-(\d+)/';
-                        $replacement = '$1$2$3';
-                        $owner->PHONE = preg_replace($pattern, $replacement, $record['PHONE']);
-                        
-                        $owner->create();
-                        
-                        $role = new RoleModel($this->adapter);
-                        $role->read(['ROLENAME' => 'Owners']);
-                        $uuid->generate();
-                        
-                        
-                        $owner->assignRole([
-                            'UUID' => $uuid->value,
-                            'USER' => $owner->UUID,
-                            'ROLE' => $role->UUID,
-                        ]);
-                    }
-                    
-                    $uuid = new Uuid();
-                    $dog = new DogModel($this->adapter);
-                    
-                    $rabies = new \DateTime($record['RABIES EXP'],new \DateTimeZone('EDT'));
-                    $rabies_formatted = $rabies->format('Y-m-d');
-                    
-                    $result = $dog->read([
-                        'NAME' => $record['DOG NAME'],
-                        'DATE_RABIESEXP' => $rabies_formatted,
-                    ]);
-                    
-                    if (is_null($result->UUID)) {
-                        $dog->UUID = $uuid->value;
-                        
-                        $dog->NAME = $record['DOG NAME'];
-                        $dog->DESCRIPTION = $record['COLOR'] . "\r\n" . $record['BREED'];
-                        $dog->DATE_RABIESEXP = $rabies_formatted;
-                        $dog->DATE_CREATED = $today;
-                        $dog->DATE_MODIFIED = $today;
-                        $dog->DATE_BIRTH = $year - $record['AGE'] . "-01-01 00:00:00";
-                        
-                        //-- Determine Dog Sex --//
-                        switch ($record['SEX']) {
-                            case 'M':
-                                $dog->SEX = $dog::MALE;
-                                break;
-                            case 'F':
-                                $dog->SEX = $dog::FEMALE;
-                                break;
-                            case 'N':
-                                $dog->SEX = $dog::NEUTERED;
-                                break;
-                            case 'S':
-                                $dog->SEX = $dog::SPAYED;
-                                break;
-                        }
-                        
-                        
-                        $dog->create();
-                        
-                        $dog->assignUser($owner->UUID);
-                    }
-                    
-                    
-                    
-                    
-                    $code = new DogCodeModel($this->adapter);
-                    $code->read(['CODE' => $record['COD']]);
-                    
-                    //-- Add code to secondary Table --//
-                    $license = new LicenseModel($this->adapter);
-                    
-                    
-                    if ($record['TAG'] != 0) {
-                        $result = $license->read(['TAG' => $record['TAG']]);
-                        
-                        if (is_null($result->UUID)) {
-                            $uuid = new Uuid();
-                            
-                            
-                            $license->UUID = $uuid->value;
-                            $license->DATE_CREATED = $today;
-                            $license->DATE_MODIFIED = $today;
-                            $license->TAG = $record['TAG'];
-                            $license->YEAR = "2018";
-                            $license->STATUS = $license::ACTIVE_STATUS;
-                            $license->PAYMENT_STATUS = $license::ACTIVE_STATUS;
-                            $license->DOG = $dog->UUID;
-                            $license->FEE = $record['FEE'];
-                            
-                            if ($code->UUID) {
-                                $license->assignCode($code->UUID);
-                            }
-                            
-                            $license->create();
-                        }
-                    }
-                    
-                    $delete = new Delete();
-                    $delete->from('import')->where([
-                        'LNAME' => $record['LNAME'],
-                        'DOG NAME' => $record['DOG NAME'],
-                        'AGE' => $record['AGE'],
-                        'RABIES EXP' => $record['RABIES EXP']
-                    ]);
-                    $statement = $sql->prepareStatementForSqlObject($delete);
-                    
-                    try {
-                        $statement->execute();
-                    } catch (RuntimeException $e) {
-                        echo $e;
-                    }
-                }
-            }
-        }
-        
-        return ([
-            'form' => $form,
-        ]);
     }
 }
