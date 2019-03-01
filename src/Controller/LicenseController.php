@@ -1,21 +1,24 @@
 <?php 
 namespace Dog\Controller;
 
+use Annotation\Model\AnnotationModel;
 use Dog\Form\DogForm;
 use Dog\Form\DogUsersForm;
 use Dog\Form\LicenseCodesForm;
+use Dog\Form\LicenseSearchForm;
 use Dog\Model\DogModel;
 use Dog\Model\LicenseModel;
 use Midnet\Model\Uuid;
+use User\Model\UserModel;
 use Zend\Db\Adapter\AdapterAwareTrait;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Predicate\Like;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
-use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Adapter\ArrayAdapter;
+use Zend\Paginator\Adapter\DbSelect;
 use Zend\View\Model\ViewModel;
-use Dog\Form\LicenseSearchForm;
 
 class LicenseController extends AbstractActionController
 {
@@ -169,7 +172,30 @@ class LicenseController extends AbstractActionController
                 break;
         }
         
+        //-- BEGIN: Retrieve Annotations --//
+        $annotation = new AnnotationModel($this->adapter);
+        //$where = new Where(['TABLENAME' => 'dogs','PRIKEY' => $uuid]);
+        $where = new Where([
+            new Like('TABLENAME', 'dog_licenses'),
+            new Like('PRIKEY', $uuid),
+        ]);
+        $annotations = $annotation->fetchAll($where, ['DATE_CREATED DESC']);
+        
+        $notes = [];
+        foreach ($annotations as $annotation) {
+            $user = new UserModel($this->adapter);
+            $user->read(['UUID' => $annotation['USER']]);
+            
+            $notes[] = [
+                'USER' => $user->USERNAME,
+                'ANNOTATION' => $annotation['ANNOTATION'],
+                'DATE_CREATED' => $annotation['DATE_CREATED'],
+            ];
+        }
+        //-- END: Retrieve Annotations --//
+        
         return ([
+            'annotations' => $notes,
             'form' => $this->form,
             'uuid' => $uuid,
             'owners' => $owners,
