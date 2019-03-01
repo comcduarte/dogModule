@@ -19,7 +19,7 @@
 			<td><?php echo $breed['STATUS']; ?></td>
 			<td><?php echo $breed['DATE_CREATED']; ?></td>
 			<td><?php echo $breed['DATE_MODIFIED']; ?></td>
-			<td><a href="<?php echo $this->url('dog/breed', ['action' => 'delete', 'uuid' => $breed['UUID']]); ?>">X</a></td>
+			<td><a href="<?php echo $this->url('dog/breed', ['action' => 'delete', 'uuid' => $breed['UUID']]); ?>"><i class="fas fa-trash-alt"></i></a></td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>
