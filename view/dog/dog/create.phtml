@@ -5,5 +5,5 @@ $this->headtitle($title);
 $form->setAttribute('action', $this->url('dog/dog', ['action' => 'create']));
 $form->prepare();
 
-echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form]);
+echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'breedForm' => $breedForm]);
 ?>

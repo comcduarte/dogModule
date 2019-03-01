@@ -19,6 +19,7 @@ use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\View\Model\ViewModel;
+use Dog\Form\BreedForm;
 
 class LicenseController extends AbstractActionController
 {
@@ -124,6 +125,9 @@ class LicenseController extends AbstractActionController
         $owners_form->setDbAdapter($this->adapter);
         $owners_form->initialize();
         
+        $breedForm = new BreedForm();
+        $breedForm->init();
+        
         $dog_form = new DogForm('dog_form');
         $dog_form->setAttribute('action', $this->url()->fromRoute('dog/dog', ['action' => 'update', 'uuid' => $dog->UUID]));
         $dog_form->setDbAdapter($this->adapter);
@@ -196,6 +200,7 @@ class LicenseController extends AbstractActionController
         
         return ([
             'annotations' => $notes,
+            'breedForm' => $breedForm,
             'form' => $this->form,
             'uuid' => $uuid,
             'owners' => $owners,

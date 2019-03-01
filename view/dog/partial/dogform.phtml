@@ -56,13 +56,15 @@ echo $this->form()->openTag($form);
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 		<?php 
-		$form = $this->breedForm;
-		$form->setAttribute('action', $this->url('dog/breed', ['action' => 'create']));
-		echo $this->form()->openTag($form);
-		
-		echo $this->formCollection($form);
-		
-		echo $this->form()->closeTag($form);
+		if ($this->breedForm) {
+		    $form = $this->breedForm;
+		    $form->setAttribute('action', $this->url('dog/breed', ['action' => 'create']));
+		    echo $this->form()->openTag($form);
+		    
+		    echo $this->formCollection($form);
+		    
+		    echo $this->form()->closeTag($form);
+		}
 		?>
 		</div>
 	</div>

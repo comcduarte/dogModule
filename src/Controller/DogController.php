@@ -75,9 +75,12 @@ class DogController extends AbstractActionController
                 return $this->redirect()->toRoute('dog/dog');
             }
         }
+        $breedForm = new BreedForm();
+        $breedForm->init();
         
         return ([
             'form' => $this->form,
+            'breedForm' => $breedForm,
         ]);
     }
     
