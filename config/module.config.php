@@ -158,7 +158,6 @@ return [
     ],
     'acl' => [
         'guest' => [
-            'dog' => ['index'],
             'dog/config' => ['index', 'import','clear'],
         ],
         'member' => [
