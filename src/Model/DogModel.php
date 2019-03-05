@@ -12,6 +12,10 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Predicate\Like;
 use Zend\Db\Sql\Predicate\Predicate;
+use Zend\Filter\StringTrim;
+use Zend\Filter\StripTags;
+use Zend\InputFilter\FileInput;
+use Zend\InputFilter\InputFilter;
 use RuntimeException;
 
 class DogModel extends DatabaseObject
@@ -28,6 +32,8 @@ class DogModel extends DatabaseObject
     public $DESCRIPTION;
     public $DATE_BIRTH;
     public $DATE_RABIESEXP;
+    public $MICROCHIP;
+    public $PHOTO;
     public $STATUS;
     public $DATE_CREATED;
     public $DATE_MODIFIED;
@@ -155,5 +161,59 @@ class DogModel extends DatabaseObject
                 return "Spayed";
                 break;
         }
+    }
+    
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            
+            foreach ($this->public_attributes as $var) {
+                $inputFilter->add([
+                    'name' => $var,
+                    'required' => $this->required,
+                    'filters' => [
+                        ['name' => StripTags::class],
+                        ['name' => StringTrim::class],
+                    ],
+                ]);
+            }
+            
+            $inputFilter->add([
+                'name' => 'PHOTO',
+                'filters' => [
+                    [
+                        'name' => 'filerenameupload',
+                        'options' => [
+                            'target'    => './data/photos/' . $this->UUID . '.jpg',
+                            'overwrite' => TRUE,
+                            'randomize' => FALSE,
+                        ],
+                    ],
+                ],
+                'validators' => [
+                    [
+                        'name'    => 'FileMimeType',
+                        'options' => [
+                            'mimeType'  => ['image/jpeg']
+                        ]
+                    ],
+                ],
+            ]);
+            
+            
+            
+            $fileInput = new FileInput('PHOTO');
+            $fileInput->getFilterChain()->attachByName(
+                'filerenameupload',
+                [
+                    'target'    => './data/photos/' . $this->UUID . '.jpg',
+                    'overwrite' => true,
+                ]);
+            $inputFilter->add($fileInput);
+            
+            $this->inputFilter = $inputFilter;
+        }
+        return $this->inputFilter;
     }
 }

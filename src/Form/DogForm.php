@@ -3,13 +3,14 @@ namespace Dog\Form;
 
 use Dog\Model\DogModel;
 use Midnet\Form\Element\DatabaseSelectObject;
+use Zend\Db\Adapter\AdapterAwareTrait;
 use Zend\Form\Form;
 use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Date;
+use Zend\Form\Element\File;
 use Zend\Form\Element\Radio;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
-use Zend\Db\Adapter\AdapterAwareTrait;
 use Zend\Form\Element\Textarea;
 
 class DogForm extends Form
@@ -127,6 +128,30 @@ class DogForm extends Form
             ],
             'options' => [
                 'label' => 'Rabies Expiration Date',
+            ],
+        ]);
+        
+        $this->add([
+            'name' => 'MICROCHIP',
+            'type' => Text::class,
+            'attributes' => [
+                'id' => 'MICROCHIP',
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Microchip',
+            ],
+        ]);
+        
+        $this->add([
+            'name' => 'PHOTO',
+            'type' => File::class,
+            'attributes' => [
+                'id' => 'PHOTO',
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Photo',
             ],
         ]);
         

@@ -1,6 +1,7 @@
 <div class="col">
 <?php
 echo $this->form()->openTag($form);
+$formLabel = $this->plugin('formLabel');
 ?>
 	<div class="container">
 		<div class="row">
@@ -18,6 +19,12 @@ echo $this->form()->openTag($form);
 	<div class="form-group">
 		<?php echo $this->formRow($form->get('SECURITY')); ?>
 	</div>
+	
+	<div class="container">
+		<img style=" width: 150px; height: auto;" src="<?=$this->url('image', ['uuid' => $this->uuid])?>">
+	</div>
+	
+	
 	
 	<div class="form-group">
 		<?php echo $this->formRow($form->get('NAME')); ?>
@@ -48,6 +55,14 @@ echo $this->form()->openTag($form);
 	<div class="form-group">
 		<?php echo $this->formRow($form->get('DATE_RABIESEXP')); ?>
 	</div>
+	<div class="form-group">
+		<?php echo $this->formRow($form->get('MICROCHIP')); ?>
+	</div>
+	
+	<div class="form-group">
+		<?php echo $this->formRow($form->get('PHOTO')); ?>
+	</div>
+	
 
 <?php echo $this->form()->closeTag($form); ?>
 </div>

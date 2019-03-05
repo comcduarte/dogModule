@@ -55,8 +55,12 @@ class DogController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
             $dog = new DogModel($this->adapter);
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+                );
             
-            $this->form->setData($request->getPost());
+            $this->form->setData($post);
             
             if ($this->form->isValid()) {
                 $dog->exchangeArray($this->form->getData());
@@ -103,9 +107,15 @@ class DogController extends AbstractActionController
         
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $this->form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+                );
+            $this->form->setData($post);
             
             if ($this->form->isValid()) {
+                $data = $this->form->getData();
+                $model->PHOTO = $data->PHOTO['tmp_name'];
                 $model->update();
                 
                 $url = $this->getRequest()->getHeader('Referer')->getUri();
