@@ -25,10 +25,23 @@ use Dog\Controller\Factory\OwnerControllerFactory;
 use Dog\Controller\ReportController;
 use Dog\Controller\Factory\ReportControllerFactory;
 use Dog\Controller\Factory\ConfigControllerFactory;
+use Dog\Controller\ImageController;
+use Dog\Controller\Factory\ImageControllerFactory;
 
 return [
     'router' => [
         'routes' => [
+            'image' => [
+                'type' => Segment::class,
+                'priority' => 10,
+                'options' => [
+                    'route' => '/image/:uuid',
+                    'defaults' => [
+                        'controller' => ImageController::class,
+                        'action' => 'display',
+                    ],
+                ],
+            ],
             'dog' => [
                 'type' => Literal::class,
                 'priority' => 1,
@@ -157,6 +170,7 @@ return [
             'dog/license' => ['index', 'create', 'update', 'delete', 'assigncode','unassigncode', 'license', 'find'],
             'dog/owner' => ['index', 'create', 'update', 'delete', 'find'],
             'dog/report' => ['index', 'create', 'update', 'delete', 'view'],
+            'image' => ['display'],
         ],
     ],
     'controllers' => [
@@ -168,6 +182,7 @@ return [
             LicenseController::class => LicenseControllerFactory::class,
             OwnerController::class => OwnerControllerFactory::class,
             ReportController::class => ReportControllerFactory::class,
+            ImageController::class => ImageControllerFactory::class,
         ],
     ],
     'form_elements' => [
