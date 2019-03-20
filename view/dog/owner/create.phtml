@@ -1,0 +1,9 @@
+<?php 
+$title = "Create New Owner";
+$this->headtitle($title);
+
+$form->setAttribute('action', $this->url('dog/owner', ['action' => 'create']));
+$form->prepare();
+
+echo $this->partial('user/partial/userform.phtml', ['title' => $title, 'form' => $form]);
+?>
