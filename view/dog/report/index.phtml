@@ -12,7 +12,7 @@
 		<tr>
 			<td>
 				<?php $url = $this->url('dog/report',['action' => 'view','uuid' => $report['UUID']]); ?>
-				<a href="<?php echo $url; ?>"><?php echo $report['NAME']; ?></a>
+				<a href="<?php echo $url; ?>" target="_blank"><?php echo $report['NAME']; ?></a>
 			</td>
 			<td><?php echo $report['VIEW']; ?></td>
 			<td>

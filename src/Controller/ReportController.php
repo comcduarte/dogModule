@@ -5,6 +5,7 @@ use Dog\Form\ReportForm;
 use Dog\Model\ReportModel;
 use Midnet\Model\Uuid;
 use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -101,6 +102,9 @@ class ReportController extends AbstractActionController
     
     public function viewAction()
     {
+        zray_disable(true);
+        $this->layout('layout/report');
+        
         $uuid = $this->params()->fromRoute('uuid',0);
         if (!$uuid) {
             return $this->redirect()->toRoute('dog/report');
@@ -112,13 +116,17 @@ class ReportController extends AbstractActionController
         $statement = $this->adapter->createStatement($report->CODE);
         
         try {
+            $resultSet = new ResultSet();
             $data = $statement->execute();
+            $resultSet->initialize($data);
         } catch (RuntimeException $e) {
             return $e;
         }
         
+        
+        
         return ([
-            'data' => $data,
+            'data' => $resultSet->toArray(),
             'view' => $report->VIEW,
         ]);
         
