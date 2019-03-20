@@ -76,7 +76,7 @@ class DogController extends AbstractActionController
                 
                 $dog->create();
                 
-                return $this->redirect()->toRoute('dog/dog');
+                return $this->redirect()->toRoute('dog/dog', ['action' => 'update', 'uuid' => $dog->UUID]);
             }
         }
         $breedForm = new BreedForm();
