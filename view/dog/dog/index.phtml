@@ -26,7 +26,7 @@ use Dog\Model\DogModel;
 			<td><?php echo DogModel::getGenderDescription($dog['SEX']); ?></td>
 			<td><?php echo $dog['DESCRIPTION']; ?></td>
 			<td>
-				<a href="<?php echo $this->url('dog/dog', ['action' => 'delete', 'uuid' => $dog['UUID']]); ?>"><i class="fas fa-trash-alt"></i></a>
+				<a class="btn btn-danger" href="<?php echo $this->url('dog/dog', ['action' => 'delete', 'uuid' => $dog['UUID']]); ?>"><i class="fas fa-trash-alt"></i></a>
 			</td>
 		</tr>
 		<?php endforeach; ?>
