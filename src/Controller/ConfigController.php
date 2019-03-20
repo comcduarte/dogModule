@@ -51,11 +51,15 @@ class ConfigController extends AbstractActionController
         $form = new SubmitForm();
         $form->initialize();
         
+        $data_is_writable = is_writable('data');
+        $photos_is_writable = is_writable('data/photos');
         
         $view = new ViewModel([
             'importForm' => $importForm,
             'breedForm' => $breedForm,
             'form' => $form,
+            'data_is_writable' => $data_is_writable,
+            'photos_is_writable' => $photos_is_writable,
         ]);
         
         return $view;
@@ -309,7 +313,7 @@ class ConfigController extends AbstractActionController
                         $row++;
                         /****************************************
                          *            Temporary Break
-                         ****************************************/
+                         ****************************************
                         if ($row >= 5) {
                             break;
                         }
