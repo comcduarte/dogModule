@@ -163,6 +163,14 @@ class DogModel extends DatabaseObject
         }
     }
     
+    public function getBreedName($breed_uuid)
+    {
+        $breed = new BreedModel($this->dbAdapter);
+        $breed->read(['UUID' => $breed_uuid]);
+        
+        return $breed->BREED;
+    }
+    
     public function getInputFilter()
     {
         if (!$this->inputFilter) {
@@ -181,6 +189,7 @@ class DogModel extends DatabaseObject
             
             $inputFilter->add([
                 'name' => 'PHOTO',
+                'required' => FALSE,
                 'filters' => [
                     [
                         'name' => 'filerenameupload',
@@ -204,6 +213,7 @@ class DogModel extends DatabaseObject
             
             
             $fileInput = new FileInput('PHOTO');
+            $fileInput->setRequired(FALSE);
             $fileInput->getFilterChain()->attachByName(
                 'filerenameupload',
                 [

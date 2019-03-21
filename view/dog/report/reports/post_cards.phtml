@@ -1,0 +1,66 @@
+<style type="text/css" media="screen, print">
+    @page
+    {
+        size: auto;
+        margin: 25px;
+       
+    }
+    
+    .card {
+        width: 450px; height: 600px; font-size: 14px;
+        margin: 25px 15px 25px 40px;
+    }
+    
+    .rotate {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform: rotate(90deg);
+        position: relative; top: 400px;
+    }
+    
+    .pagebreak { page-break-after: always; }
+
+</style>
+<?php 
+$max = sizeof($data);
+
+?>
+<?php for ($i=0; $i < $max; $i++) : ?>
+<div class="row">
+    <div class="border card">
+    	<address class="rotate">
+    	<?=$data[$i]['FNAME']?> <?=$data[$i]['LNAME']?><br>
+    	<?=$data[$i]['ADDR1']?><br>
+    	<?=$data[$i]['CITY']?> <?=$data[$i]['STATE']?>, <?=$data[$i]['ZIP']?><br>
+    	</address>
+    </div>
+    <?php $i++; ?>
+    <div class="border card">
+    	<address class="rotate">
+    	<?=$data[$i]['FNAME']?> <?=$data[$i]['LNAME']?><br>
+    	<?=$data[$i]['ADDR1']?><br>
+    	<?=$data[$i]['CITY']?> <?=$data[$i]['STATE']?>, <?=$data[$i]['ZIP']?><br>
+    	</address>
+    </div>
+</div>
+<div class="row pagebreak">
+    <div class="border card">
+    	<address class="rotate">
+    	<?=$data[$i]['FNAME']?> <?=$data[$i]['LNAME']?><br>
+    	<?=$data[$i]['ADDR1']?><br>
+    	<?=$data[$i]['CITY']?> <?=$data[$i]['STATE']?>, <?=$data[$i]['ZIP']?><br>
+    	</address>
+    </div>
+    <?php $i++; ?>
+    <div class="border card">
+    	<address class="rotate">
+    	<?=$data[$i]['FNAME']?> <?=$data[$i]['LNAME']?><br>
+    	<?=$data[$i]['ADDR1']?><br>
+    	<?=$data[$i]['CITY']?> <?=$data[$i]['STATE']?>, <?=$data[$i]['ZIP']?><br>
+    	</address>
+    </div>
+</div>
+<!-- <div class="pagebreak">&nbsp;</div> -->
+<?php endfor; ?>

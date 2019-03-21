@@ -10,7 +10,9 @@ $formLabel = $this->plugin('formLabel');
 			</div>
 			<div class="d-flex justify-content-end">
 				<?php echo $this->formRow($form->get('SUBMIT')); ?>&nbsp;
-				<a href="<?=$this->url('dog/dog', ['action' => 'delete', 'uuid' => $this->uuid])?>" class="btn btn-danger">Delete</a>
+				<?php if (isset($this->uuid)) : ?>
+					<a href="<?=$this->url('dog/dog', ['action' => 'delete', 'uuid' => $this->uuid])?>" class="btn btn-danger">Delete</a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
@@ -20,10 +22,11 @@ $formLabel = $this->plugin('formLabel');
 		<?php echo $this->formRow($form->get('SECURITY')); ?>
 	</div>
 	
+	<?php if (isset($this->uuid)) : ?>
 	<div class="container">
 		<img style=" width: 150px; height: auto;" src="<?=$this->url('image', ['uuid' => $this->uuid])?>">
 	</div>
-	
+	<?php endif; ?>
 	
 	
 	<div class="form-group">

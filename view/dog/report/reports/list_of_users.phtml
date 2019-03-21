@@ -1,0 +1,41 @@
+<style type="text/css">
+@media print
+{
+    @page
+    {
+        size: landscape;
+    }
+}
+</style>
+<table class="table table-sm table-striped" style="font-size: 10px;">
+	<thead>
+		<tr>
+    		<th>Address</th>
+    		<th>Last Name</th>
+    		<th>First Name</th>
+    		<th>Phone</th>
+    		<th>Dog Name</th>
+    		<th>Dog Breed</th>
+    		<th>Description</th>
+    		<th>Age</th>
+    		<th>Sex</th>
+    		<th>Rabies Expiration</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($data as $record) : ?>
+			<tr>
+				<td><?php preg_match('/(\d+)(.*)/', $record['ADDR1'], $matches); echo $matches[2];?></td>
+				<td><?=$record['LNAME']?></td>
+				<td><?=$record['FNAME']?></td>
+				<td><?=$record['PHONE']?></td>
+				<td><?=$record['NAME']?></td>
+				<td><?=$record['BREED']?></td>
+				<td><?=$record['DESCRIPTION']?></td>
+				<td><?=$record['DATE_BIRTH']?></td>
+				<td><?=$record['SEX']?></td>
+				<td><?=$record['DATE_RABIESEXP']?></td>
+			</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>

@@ -4,6 +4,7 @@ namespace Dog\Controller;
 use Annotation\Model\AnnotationModel;
 use Dog\Form\OwnerSearchForm;
 use Dog\Model\OwnerModel;
+use Midnet\Model\Uuid;
 use User\Form\UserForm;
 use User\Model\UserModel;
 use Zend\Db\Adapter\AdapterAwareTrait;
@@ -13,6 +14,8 @@ use Zend\Db\Sql\Predicate\Like;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\DbSelect;
+use Zend\Form\Element\Hidden;
+use User\Model\RoleModel;
 
 class OwnerController extends AbstractActionController
 {
@@ -38,6 +41,62 @@ class OwnerController extends AbstractActionController
         
         return ([
             'owners' => $paginator,
+        ]);
+    }
+    
+    public function createAction()
+    {
+        $request = $this->getRequest();
+        $form = new UserForm();
+        
+        $uuid = new Uuid();
+        
+        $form->remove('USERNAME');
+        $username = new Hidden('USERNAME');
+        $username->setValue($uuid->generate()->value);
+        $form->add($username);
+        
+        $form->remove('PASSWORD');
+        $password = new Hidden('PASSWORD');
+        $password->setValue($uuid->generate()->value);
+        $form->add($password);
+        
+        $form->remove('CONFIRM_PASSWORD');
+        $cpassword = new Hidden('CONFIRM_PASSWORD');
+        $cpassword->setValue($uuid->value);
+        $form->add($cpassword);
+        
+        
+        if ($request->isPost()) {
+            $owner = new OwnerModel($this->adapter);
+            
+            
+            $form->setData($request->getPost());
+            
+            if ($form->isValid()) {
+                $owner->exchangeArray($form->getData());
+                
+                $role = new RoleModel($this->adapter);
+                $role->read(['ROLENAME' => 'Owners']);
+                
+                $uuid = new Uuid();
+                $owner->UUID = $uuid->value;
+                
+                $date = new \DateTime('now',new \DateTimeZone('EDT'));
+                $today = $date->format('Y-m-d H:i:s');
+                $owner->DATE_CREATED = $today;
+                
+                $owner->STATUS = $owner::ACTIVE_STATUS;
+                $owner->assignRole($role->UUID);
+                
+                $owner->create();
+                
+                return $this->redirect()->toRoute('dog/owner', ['action' => 'update', 'uuid' => $owner->UUID]);
+            }
+        }
+        
+        return ([
+            'form' => $form,
         ]);
     }
     
@@ -103,6 +162,20 @@ class OwnerController extends AbstractActionController
             'annotations_user' => '',
             'dogs' => $dogs,
         ];
+    }
+    
+    public function deleteAction()
+    {
+        $uuid = $this->params()->fromRoute('uuid', 0);
+        if (!$uuid) {
+            return $this->redirect()->toRoute('dog/owner');
+        }
+        
+        $user = new UserModel($this->adapter);
+        $user->read(['UUID' => $uuid]);
+        $user->delete();
+        
+        return $this->redirect()->toRoute('dog/owner');
     }
     
     public function findAction()

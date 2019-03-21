@@ -56,3 +56,23 @@ echo $this->form()->openTag($form);
 <?php
 echo $this->form()->closeTag($form);
 ?>
+<hr>
+<?php if ($this->data_is_writable) : ?>
+Data Folder is Writable<br>
+<?php else : ?>
+Data Folder is Not Writable
+run: chcon -R -t httpd_sys_rw_content_t dir
+where dir is the directory specified<br>
+<?php endif; ?>
+
+<?php if ($this->photos_is_writable) : ?>
+Data/Photos Folder is Writable<br>
+<?php else : ?>
+Data/Photos Folder is Not Writable
+run: chcon -R -t httpd_sys_rw_content_t dir
+where dir is the directory specified<br>
+<?php endif; ?>
+
+Max Upload Size is <?php echo ini_get('upload_max_filesize'); ?>
+
+
