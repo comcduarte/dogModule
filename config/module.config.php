@@ -298,10 +298,6 @@ return [
                     ],
                 ],
             ],
-            [
-                'label' => 'Configuration',
-                'route' => 'dog/config',
-            ],
         ],
     ],
     'service_manager' => [
