@@ -72,3 +72,7 @@ Data/Photos Folder is Not Writable
 run: chcon -R -t httpd_sys_rw_content_t dir
 where dir is the directory specified<br>
 <?php endif; ?>
+
+Max Upload Size is <?php echo ini_get('upload_max_filesize'); ?>
+
+
