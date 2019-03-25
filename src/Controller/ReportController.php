@@ -90,7 +90,10 @@ class ReportController extends AbstractActionController
             if ($form->isValid()) {
                 $model->update();
                 
-                return $this->redirect()->toRoute('dog/report', ['action' => 'update', 'uuid' => $model->UUID]);
+                $this->flashmessenger()->addSuccessMessage('Update Successful');
+                
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
         }
         

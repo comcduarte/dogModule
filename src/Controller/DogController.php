@@ -120,6 +120,8 @@ class DogController extends AbstractActionController
                 $model->PHOTO = $data->PHOTO['tmp_name'];
                 $model->update();
                 
+                $this->flashmessenger()->addSuccessMessage('Update Successful');
+                
                 $url = $this->getRequest()->getHeader('Referer')->getUri();
                 return $this->redirect()->toUrl($url);
             }

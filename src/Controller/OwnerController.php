@@ -122,6 +122,8 @@ class OwnerController extends AbstractActionController
             if ($form->isValid()) {
                 $owner->update();
                 
+                $this->flashmessenger()->addSuccessMessage('Update Successful');
+                
                 $url = $this->getRequest()->getHeader('Referer')->getUri();
                 return $this->redirect()->toUrl($url);
             }

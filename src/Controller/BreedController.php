@@ -99,6 +99,8 @@ class BreedController extends AbstractActionController
             if ($this->form->isValid()) {
                 $model->update();
                 //-- Return to previous screen --//
+                $this->flashmessenger()->addSuccessMessage('Update Successful');
+                
                 $url = $this->getRequest()->getHeader('Referer')->getUri();
                 return $this->redirect()->toUrl($url);
             }

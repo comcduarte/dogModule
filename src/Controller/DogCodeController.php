@@ -95,7 +95,10 @@ class DogCodeController extends AbstractActionController
             
             if ($this->form->isValid()) {
                 $model->update();
-                return $this->redirect()->toRoute('dog/code');
+                $this->flashmessenger()->addSuccessMessage('Update Successful');
+                
+                $url = $this->getRequest()->getHeader('Referer')->getUri();
+                return $this->redirect()->toUrl($url);
             }
         }
         
