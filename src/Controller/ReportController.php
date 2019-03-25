@@ -102,7 +102,6 @@ class ReportController extends AbstractActionController
     
     public function viewAction()
     {
-        zray_disable(true);
         $this->layout('layout/report');
         
         $uuid = $this->params()->fromRoute('uuid',0);
