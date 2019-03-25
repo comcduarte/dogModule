@@ -2,12 +2,14 @@
 namespace Dog\Controller;
 
 use Annotation\Model\AnnotationModel;
+use Dog\Form\BreedForm;
 use Dog\Form\DogSearchForm;
 use Dog\Model\DogModel;
 use Dog\Model\LicenseModel;
 use Midnet\Model\Uuid;
 use User\Model\UserModel;
 use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Where;
@@ -16,7 +18,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\View\Model\ViewModel;
-use Dog\Form\BreedForm;
+use RuntimeException;
 
 class DogController extends AbstractActionController
 {
@@ -257,11 +259,39 @@ class DogController extends AbstractActionController
             $form->setData($data);
             
             if ($form->isValid()) {
+                $sql = new Sql($this->adapter);
+                
+                $select = new Select();
+                $select->columns(['UUID','NAME','SEX','DESCRIPTION']);
+                $select->from($dog->getTableName());
+                
+                
+                
+                $select->join('dog_users', 'dogs.UUID = dog_users.DOG', 'USER', Select::JOIN_LEFT)
+                    ->join('users', 'dog_users.USER = users.UUID', 'ADDR1', Select::JOIN_LEFT)
+                    ->join('dog_breeds', 'dogs.BREED = dog_breeds.UUID', 'BREED', Select::JOIN_LEFT);
+                
                 $predicate = new Where();
                 $predicate->like('NAME', '%' . $data['NAME'] . '%');
-                $dogs = $dog->fetchAll($predicate, ['NAME']);
+                
+                $select->where($predicate);
+                $select->order('NAME');
+                
+                $statement = $sql->prepareStatementForSqlObject($select);
+                $resultSet = new ResultSet();
+                
+                try {
+                    $results = $statement->execute();
+                    $resultSet->initialize($results);
+                } catch (RuntimeException $e) {
+                    return $e;
+                }
+                
+                $dogs = $resultSet->toArray();
             }
         }
+        
+        
         
         $paginator = new Paginator(new ArrayAdapter($dogs));
         $paginator->setItemCountPerPage(0);
@@ -270,7 +300,7 @@ class DogController extends AbstractActionController
             'dogs' => $paginator,
             'count' => 0,
         ]);
-        $view->setTemplate('dog/dog/index.phtml');
+        $view->setTemplate('dog/dog/find.phtml');
         
         return $view;
     }

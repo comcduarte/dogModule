@@ -1,30 +1,35 @@
+<?php
+use Zend\Form\Element\Select;
+use Zend\Form\Form;
+use Dog\Model\DogModel;
+?>
 <div class="container">
-	<!-- Add News: WYSIWYG Edior -->
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Dog Name</th>
-				<th></th>
-				<th>Status</th>
-				<th>Created</th>
-				<th>Modified</th>
-				<th />
-			</tr>
-		</thead>
-		<tbody>
-		<?php foreach ($dogs as $dog) : ?>
-			<tr>
-				<td><a href=<?php echo $this->url('dog/dog', ['action' => 'update','uuid' => $dog['UUID']]); ?>><?=$dog['NAME']?></a></td>
-				<td></td>
-				<td><?=$dog['STATUS']?></td>
-				<td><?=$dog['DATE_CREATED']?></td>
-				<td><?=$dog['DATE_MODIFIED']?></td>
-				<td>
-					<a class="btn btn-danger" href=<?php echo $this->url('dog/dog', ['action' => 'delete','uuid' => $dog['UUID']]); ?>>Delete</a>
-				</td>
-			</tr>
+	<?php if (count($this->dogs)) : ?>
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Dog Name</th>
+			<th>Breed</th>
+			<th>Sex</th>
+			<th>Street</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->dogs as $dog) : ?>
+		<tr>
+			<td>
+				<?php $url = $this->url('dog/dog',['action' => 'update','uuid' => $dog['UUID']]); ?>
+				<a href="<?php echo $url; ?>"><?php echo $dog['NAME']; ?></a>
+			</td>
+			<td><?php echo $dog['BREED']; ?></td>
+			<td><?php echo DogModel::getGenderDescription($dog['SEX']); ?></td>
+			<td><?php echo $dog['ADDR1']; ?></td>
+			<td><?php echo $dog['DESCRIPTION']; ?></td>
+		</tr>
 		<?php endforeach; ?>
-		</tbody>
+	</tbody>
 	</table>
-	<!-- / Add News: WYSIWYG Edior -->
+	<?php endif; ?>
+	<?php echo $this->paginationControl($this->dogs, 'Sliding', '/dog/partial/paginator.phtml', ['count' => $this->count]) ?>
 </div>
