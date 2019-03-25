@@ -264,6 +264,7 @@ class DogController extends AbstractActionController
         }
         
         $paginator = new Paginator(new ArrayAdapter($dogs));
+        $paginator->setItemCountPerPage(0);
         
         $view = new ViewModel([
             'dogs' => $paginator,
