@@ -10,9 +10,6 @@ $formLabel = $this->plugin('formLabel');
 			</div>
 			<div class="d-flex justify-content-end">
 				<?php echo $this->formRow($form->get('SUBMIT')); ?>&nbsp;
-				<?php if (isset($this->uuid)) : ?>
-					<a href="<?=$this->url('dog/dog', ['action' => 'delete', 'uuid' => $this->uuid])?>" class="btn btn-danger">Delete</a>
-				<?php endif; ?>
 			</div>
 		</div>
 	</div>

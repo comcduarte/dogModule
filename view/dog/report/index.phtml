@@ -17,7 +17,6 @@
 			<td><?php echo $report['VIEW']; ?></td>
 			<td>
 				<a href="<?php echo $this->url('dog/report', ['action' => 'update', 'uuid' => $report['UUID']]); ?>"><i class="fas fa-edit"></i></a>
-				<a href="<?php echo $this->url('dog/report', ['action' => 'delete', 'uuid' => $report['UUID']]); ?>"><i class="fas fa-trash-alt"></i></a>
 			</td>
 		</tr>
 		<?php endforeach; ?>

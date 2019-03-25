@@ -6,7 +6,6 @@
 			<th>Status</th>
 			<th>Date Created</th>
 			<th>Date Modified</th>
-			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -19,7 +18,6 @@
 			<td><?php echo $breed['STATUS']; ?></td>
 			<td><?php echo $breed['DATE_CREATED']; ?></td>
 			<td><?php echo $breed['DATE_MODIFIED']; ?></td>
-			<td><a class="btn btn-danger" href="<?php echo $this->url('dog/breed', ['action' => 'delete', 'uuid' => $breed['UUID']]); ?>"><i class="fas fa-trash-alt"></i></a></td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>

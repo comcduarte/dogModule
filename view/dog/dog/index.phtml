@@ -12,7 +12,6 @@ use Dog\Model\DogModel;
 			<th>Breed</th>
 			<th>Sex</th>
 			<th>Description</th>
-			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -25,9 +24,6 @@ use Dog\Model\DogModel;
 			<td><?php echo $dog['BREED']; ?></td>
 			<td><?php echo DogModel::getGenderDescription($dog['SEX']); ?></td>
 			<td><?php echo $dog['DESCRIPTION']; ?></td>
-			<td>
-				<a class="btn btn-danger" href="<?php echo $this->url('dog/dog', ['action' => 'delete', 'uuid' => $dog['UUID']]); ?>"><i class="fas fa-trash-alt"></i></a>
-			</td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>
