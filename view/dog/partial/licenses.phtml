@@ -25,8 +25,8 @@
     			<td><a href="<?php echo $this->url('dog/license', ['action' => 'update','uuid' => $license['UUID']]); ?>"><?=$license['TAG']?></a></td>
     			<td><?=$license['YEAR']?></td>
     			<td><?=$license['STATUS']?></td>
-    			<td>
-    				<a href="<?=$this->url('dog/license', ['action' => 'delete', 'uuid' => $license['UUID']])?>" class="btn btn-danger btn-sm">&times;</a>
+    			<td class="text-right">
+    				<a href="<?=$this->url('dog/license', ['action' => 'delete', 'uuid' => $license['UUID']])?>" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
     			</td>
     		</tr>
 		<?php endforeach; ?>

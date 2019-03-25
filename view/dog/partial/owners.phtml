@@ -23,11 +23,11 @@
     		<tr>
     			<td><a href="<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>"><?=$user['FNAME']?></a></td>
     			<td><?=$user['LNAME']?></td>
-    			<td>
+    			<td class="text-right">
     				<form method="POST" action="<?php echo $this->url('dog/dog', ['action' => 'unassignuser']);?>">
     					<input type="hidden" name="DOG" id="DOG" value="<?php echo $this->dog; ?>">
     					<input type="hidden" name="USER" id="USER" value="<?php echo $user['UUID']; ?>">
-    					<input type="submit" name="SUBMIT" class="btn btn-danger btn-sm" id="SUBMIT" value="X">
+    					<button onclick="submit();" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
     				</form>
     			</td>
     		</tr>
