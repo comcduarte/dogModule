@@ -308,6 +308,9 @@ return [
             'dog-model-primary-adapter-config' => 'user-model-primary-adapter-config',
         ],
     ],
+    'session_config' => [
+        'cache_limiter' => 'private_no_expire',    
+    ],
     'view_manager' => [
         'template_map' => [
             'layout/license' => __DIR__ . '/../view/layout/license.phtml',
