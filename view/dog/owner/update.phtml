@@ -5,11 +5,9 @@ $this->headtitle($title);
 $form->setAttribute('action', $this->url('dog/owner', ['action' => 'update', 'uuid' => $this->uuid]));
 $form->prepare();
 ?>
-<div class="row">
-	<div class="col">
+<div class="container">
+	<div class="row">
 <?php echo $this->partial('user/partial/userform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
-	</div>
-	<div class="col">
 <?php echo $this->partial('dog/partial/dogs.phtml', ['dogs' => $this->dogs]); ?>
 	</div>
 </div>
