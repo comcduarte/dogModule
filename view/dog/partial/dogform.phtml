@@ -25,11 +25,6 @@ $formLabel = $this->plugin('formLabel');
 	</div>
 	<?php endif; ?>
 	
-	
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('NAME')); ?>
-	</div>
-	
 	<?php 
 	$breed_field = $form->get('BREED'); 
 	$formLabel = $this->plugin('formLabel');
@@ -43,6 +38,9 @@ $formLabel = $this->plugin('formLabel');
             	<button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAddBreedForm">Add</button>
             </div>
     </div>
+    <div class="form-group">
+		<?php echo $this->formRow($form->get('NAME')); ?>
+	</div>
 	<div class="form-group">
 		<?php echo $this->formRow($form->get('SEX')); ?>
 	</div>
