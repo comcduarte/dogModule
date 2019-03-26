@@ -26,7 +26,8 @@
     			<td><?=$license['YEAR']?></td>
     			<td><?=$license['STATUS']?></td>
     			<td class="text-right">
-    				<a href="<?=$this->url('dog/license', ['action' => 'delete', 'uuid' => $license['UUID']])?>" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+    				<a class="btn btn-primary btn-sm" target="_blank" href="<?=$this->url('dog/license', ['action' => 'license', 'uuid' => $license['UUID']])?>"><i class="fas fa-print"></i></a>&nbsp;
+    				<a href="<?=$this->url('dog/license', ['action' => 'delete', 'uuid' => $license['UUID']])?>" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
     			</td>
     		</tr>
 		<?php endforeach; ?>
