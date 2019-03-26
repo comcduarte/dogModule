@@ -278,8 +278,6 @@ class LicenseController extends AbstractActionController
     
     public function licenseAction()
     {
-        zray_disable(true);
-        
         $this->layout('layout/license');
         $view = new ViewModel();
         
