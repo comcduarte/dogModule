@@ -9,6 +9,7 @@ use Dog\Model\DogModel;
 	<thead>
 		<tr>
 			<th>Dog Name</th>
+			<th>Status</th>
 			<th>Breed</th>
 			<th>Sex</th>
 			<th>Street</th>
@@ -22,6 +23,7 @@ use Dog\Model\DogModel;
 				<?php $url = $this->url('dog/dog',['action' => 'update','uuid' => $dog['UUID']]); ?>
 				<a href="<?php echo $url; ?>"><?php echo $dog['NAME']; ?></a>
 			</td>
+			<td><?php echo DogModel::getStatus($dog['STATUS'])?></td>
 			<td><?php echo $dog['BREED']; ?></td>
 			<td><?php echo DogModel::getGenderDescription($dog['SEX']); ?></td>
 			<td><?php echo $dog['ADDR1']; ?></td>

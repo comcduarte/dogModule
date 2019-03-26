@@ -1,3 +1,4 @@
+<?php use User\Model\UserModel; ?>
 <div class="container">
 	<!-- Add News: WYSIWYG Edior -->
 	<table class="table">
@@ -16,7 +17,7 @@
 			<tr>
 				<td><a href=<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>><?=$user['LNAME']?></a></td>
 				<td><?=$user['FNAME']?></td>
-				<td><?=$user['STATUS']?></td>
+				<td><?=UserModel::getStatus($user['STATUS'])?></td>
 				<td><?=$user['DATE_CREATED']?></td>
 				<td><?=$user['DATE_MODIFIED']?></td>
 				<td>

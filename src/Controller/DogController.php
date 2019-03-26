@@ -264,7 +264,7 @@ class DogController extends AbstractActionController
                 $sql = new Sql($this->adapter);
                 
                 $select = new Select();
-                $select->columns(['UUID','NAME','SEX','DESCRIPTION']);
+                $select->columns(['UUID','NAME','SEX','DESCRIPTION', 'STATUS']);
                 $select->from($dog->getTableName());
                 
                 

@@ -1,3 +1,4 @@
+<?php use Dog\Model\LicenseModel; ?>
 <div class="container">
 	<table class="table table-striped">
 	<thead>
@@ -17,7 +18,7 @@
 				<a href="<?php echo $url; ?>"><?php echo $license['TAG']; ?></a>
 			</td>
 			<td><?php echo $license['YEAR']; ?></td>
-			<td><?php echo $license['STATUS']; ?></td>
+			<td><?php echo LicenseModel::getStatus($license['STATUS'])?></td>
 			<td><?php echo $license['DATE_CREATED']; ?></td>
 			<td><?php echo $license['DATE_MODIFIED']; ?></td>
 		</tr>

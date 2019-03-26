@@ -9,6 +9,7 @@ use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Date;
 use Zend\Form\Element\File;
 use Zend\Form\Element\Radio;
+use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Textarea;
@@ -140,6 +141,23 @@ class DogForm extends Form
             ],
             'options' => [
                 'label' => 'Microchip',
+            ],
+        ]);
+        
+        $this->add([
+            'name' => 'STATUS',
+            'type' => Select::class,
+            'attributes' => [
+                'id' => 'STATUS',
+                'class' => 'form-control',
+                'required' => 'true',
+            ],
+            'options' => [
+                'label' => 'Status',
+                'value_options' => [
+                    DogModel::INACTIVE_STATUS => 'Inactive',
+                    DogModel::ACTIVE_STATUS => 'Active',
+                ],
             ],
         ]);
         
