@@ -1,3 +1,4 @@
+<?php use Dog\Model\LicenseModel; ?>
 <div class="col">
 	<div class="container">
 		<div class="row">
@@ -24,7 +25,7 @@
     		<tr>
     			<td><a href="<?php echo $this->url('dog/license', ['action' => 'update','uuid' => $license['UUID']]); ?>"><?=$license['TAG']?></a></td>
     			<td><?=$license['YEAR']?></td>
-    			<td><?=$license['STATUS']?></td>
+    			<td><?=LicenseModel::getStatus($license['STATUS'])?></td>
     			<td class="text-right">
     				<a class="btn btn-primary btn-sm" target="_blank" href="<?=$this->url('dog/license', ['action' => 'license', 'uuid' => $license['UUID']])?>"><i class="fas fa-print"></i></a>&nbsp;
     			</td>
