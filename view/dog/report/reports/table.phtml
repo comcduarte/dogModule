@@ -1,0 +1,30 @@
+<style type="text/css">
+@media print
+{
+    @page
+    {
+        size: landscape;
+    }
+}
+</style>
+<?php 
+$fields = array_keys($data[0]);
+?>
+<table class="table table-sm table-striped" style="font-size: 10px;">
+	<thead>
+		<tr>
+			<?php foreach ($fields as $field) : ?>
+    		<th><?php echo $field; ?></th>
+    		<?php endforeach; ?>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($data as $record) : ?>
+			<tr>
+				<?php foreach ($fields as $field) : ?>
+				<td><?=$record[$field]?></td>
+				<?php endforeach; ?>
+			</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
