@@ -274,7 +274,7 @@ class DogController extends AbstractActionController
                     ->join('dog_breeds', 'dogs.BREED = dog_breeds.UUID', 'BREED', Select::JOIN_LEFT);
                 
                 $predicate = new Where();
-                $predicate->like('NAME', '%' . $data['NAME'] . '%');
+                $predicate->like('NAME', '%' . $data['NAME'] . '%')->or->like('ADDR1', '%' . $data['NAME'] . '%');
                 
                 $select->where($predicate);
                 $select->order('NAME');
