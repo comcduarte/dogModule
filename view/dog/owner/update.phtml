@@ -5,10 +5,12 @@ $this->headtitle($title);
 $form->setAttribute('action', $this->url('dog/owner', ['action' => 'update', 'uuid' => $this->uuid]));
 $form->prepare();
 ?>
-<div class="container">
 	<div class="row">
-<?php echo $this->partial('user/partial/userform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
-<?php echo $this->partial('dog/partial/dogs.phtml', ['dogs' => $this->dogs]); ?>
+		<div class="col-md-6">
+    		<?php echo $this->partial('user/partial/userform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
+		</div>
+		<div class="col-md-6">
+    		<?php echo $this->partial('dog/partial/dogs.phtml', ['dogs' => $this->dogs]); ?>
+		</div>
 	</div>
-</div>
 <?php echo $this->annotations()->setAnnotations($annotations)->render(); ?>

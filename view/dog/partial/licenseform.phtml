@@ -1,41 +1,41 @@
-<div class="col">
+<div class="card mb-4">
 <?php
 echo $this->form()->openTag($form);
 ?>
-    <div class="container">
-    	<div class="row">
-    		<div class="col">
-    			<h3><?php echo $this->title; ?></h3>
-    		</div>
-    		<div class="d-flex justify-content-end">
-    			<a class="btn btn-primary" target="_blank" href="<?=$this->url('dog/license', ['action' => 'license', 'uuid' => $this->uuid])?>">Print</a>&nbsp;
+    <div class="card-header d-flex justify-content-between">
+		<div>
+			<b><?php echo $this->title; ?></b>
+		</div>
+		<div>
+			<a class="btn btn-primary" target="_blank" href="<?=$this->url('dog/license', ['action' => 'license', 'uuid' => $this->uuid])?>">Print</a>&nbsp;
     			<?php echo $this->formRow($form->get('SUBMIT')); ?>
-    		</div>
-    	</div>
-    </div>
+		</div>
+	</div>
     
-    <!-- Hidden Elements -->
-    <div class="form-group">
-    	<?php echo $this->formRow($form->get('SECURITY')); ?>
-    </div>
-    
-    <div class="form-group">
-    	<?php echo $this->formRow($form->get('TAG')); ?>
-    </div>
-    <div class="form-group">
-    	<?php echo $this->formRow($form->get('YEAR')); ?>
-    </div>
-    <div class="form-group">
-    	<?php echo $this->formRow($form->get('STATUS')); ?>
-    </div>
-    <div class="form-group">
-    	<?php echo $this->formRow($form->get('PAYMENT_STATUS')); ?>
-    </div>
-    <div class="form-group">
-    	<?php echo $this->formRow($form->get('FEE')); ?>
-    </div>
-    <div class="form-group">
-    	<?php echo $this->formRow($form->get('DOG')); ?>
+    <div class="card-body">
+        <!-- Hidden Elements -->
+        <div class="form-group">
+        	<?php echo $this->formRow($form->get('SECURITY')); ?>
+        </div>
+        
+        <div class="form-group">
+        	<?php echo $this->formRow($form->get('TAG')); ?>
+        </div>
+        <div class="form-group">
+        	<?php echo $this->formRow($form->get('YEAR')); ?>
+        </div>
+        <div class="form-group">
+        	<?php echo $this->formRow($form->get('STATUS')); ?>
+        </div>
+        <div class="form-group">
+        	<?php echo $this->formRow($form->get('PAYMENT_STATUS')); ?>
+        </div>
+        <div class="form-group">
+        	<?php echo $this->formRow($form->get('FEE')); ?>
+        </div>
+        <div class="form-group">
+        	<?php echo $this->formRow($form->get('DOG')); ?>
+        </div>
     </div>
 <?php echo $this->form()->closeTag($form); ?>
 </div>

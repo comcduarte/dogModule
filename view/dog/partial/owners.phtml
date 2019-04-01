@@ -1,40 +1,38 @@
-<div class="col">
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<h3>Dog Owners</h3>
-			</div>
-			<div class="d-flex justify-content-end">
-				<a href="" class="btn btn-primary btn-rounded mb-4" data-toggle="modal" data-target="#modalDogUsersForm">Assign Owner</a>
-			</div>
+<div class="card mb-4">
+	<div class="card-header d-flex justify-content-between">
+		<div>
+			<b>Dog Owners</b>
+		</div>
+		<div>
+			<a href="" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#modalDogUsersForm">Assign Owner</a>
 		</div>
 	</div>
-	
-    <table class="table table-striped">
-    	<thead>
-    		<tr>
-    			<th>First Name</th>
-    			<th>Last Name</th>
-    			<th />
-    		</tr>
-    	</thead>
-    	<tbody>
-    	<?php foreach ($this->owners as $user) : ?>
-    		<tr>
-    			<td><a href="<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>"><?=$user['FNAME']?></a></td>
-    			<td><?=$user['LNAME']?></td>
-    			<td class="text-right">
-    				<form method="POST" action="<?php echo $this->url('dog/dog', ['action' => 'unassignuser']);?>">
-    					<input type="hidden" name="DOG" id="DOG" value="<?php echo $this->dog; ?>">
-    					<input type="hidden" name="USER" id="USER" value="<?php echo $user['UUID']; ?>">
-    					<button onclick="submit();" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-    				</form>
-    			</td>
-    		</tr>
-		<?php endforeach; ?>
-    	</tbody>
-    </table>
-    
+	<div class="card-body">
+        <table class="table table-striped">
+        	<thead>
+        		<tr>
+        			<th>First Name</th>
+        			<th>Last Name</th>
+        			<th />
+        		</tr>
+        	</thead>
+        	<tbody>
+        	<?php foreach ($this->owners as $user) : ?>
+        		<tr>
+        			<td><a href="<?php echo $this->url('dog/owner', ['action' => 'update','uuid' => $user['UUID']]); ?>"><?=$user['FNAME']?></a></td>
+        			<td><?=$user['LNAME']?></td>
+        			<td class="text-right">
+        				<form method="POST" action="<?php echo $this->url('dog/dog', ['action' => 'unassignuser']);?>">
+        					<input type="hidden" name="DOG" id="DOG" value="<?php echo $this->dog; ?>">
+        					<input type="hidden" name="USER" id="USER" value="<?php echo $user['UUID']; ?>">
+        					<button onclick="submit();" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+        				</form>
+        			</td>
+        		</tr>
+    		<?php endforeach; ?>
+        	</tbody>
+        </table>
+    </div>
 </div>
 
 <div class="modal fade" id="modalDogUsersForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

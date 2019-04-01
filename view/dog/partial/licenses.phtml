@@ -1,38 +1,37 @@
 <?php use Dog\Model\LicenseModel; ?>
-<div class="col">
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<h3>Licenses</h3>
-			</div>
-			<div class="d-flex justify-content-end">
-				<a href="" class="btn btn-primary btn-rounded mb-4" data-toggle="modal" data-target="#modalLicenseForm">Renew License</a>
-			</div>
+<div class="card mb-4">
+	<div class="card-header d-flex justify-content-between">
+		<div>
+			<b>Licenses</b>
+		</div>
+		<div>
+			<a href="" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#modalLicenseForm">Renew License</a>
 		</div>
 	</div>
-	
-    <table class="table table-striped">
-    	<thead>
-    		<tr>
-    			<th>Tag Number</th>
-    			<th>Year</th>
-    			<th>Status</th>
-    			<th />
-    		</tr>
-    	</thead>
-    	<tbody>
-    	<?php foreach ($this->licenses as $license) : ?>
-    		<tr>
-    			<td><a href="<?php echo $this->url('dog/license', ['action' => 'update','uuid' => $license['UUID']]); ?>"><?=$license['TAG']?></a></td>
-    			<td><?=$license['YEAR']?></td>
-    			<td><?=LicenseModel::getStatus($license['STATUS'])?></td>
-    			<td class="text-right">
-    				<a class="btn btn-primary btn-sm" target="_blank" href="<?=$this->url('dog/license', ['action' => 'license', 'uuid' => $license['UUID']])?>"><i class="fas fa-print"></i></a>&nbsp;
-    			</td>
-    		</tr>
-		<?php endforeach; ?>
-    	</tbody>
-    </table>
+	<div class="card-body">
+        <table class="table table-striped">
+        	<thead>
+        		<tr>
+        			<th>Tag Number</th>
+        			<th>Year</th>
+        			<th>Status</th>
+        			<th />
+        		</tr>
+        	</thead>
+        	<tbody>
+        	<?php foreach ($this->licenses as $license) : ?>
+        		<tr>
+        			<td><a href="<?php echo $this->url('dog/license', ['action' => 'update','uuid' => $license['UUID']]); ?>"><?=$license['TAG']?></a></td>
+        			<td><?=$license['YEAR']?></td>
+        			<td><?=LicenseModel::getStatus($license['STATUS'])?></td>
+        			<td class="text-right">
+        				<a class="btn btn-primary btn-sm" target="_blank" href="<?=$this->url('dog/license', ['action' => 'license', 'uuid' => $license['UUID']])?>"><i class="fas fa-print"></i></a>&nbsp;
+        			</td>
+        		</tr>
+    		<?php endforeach; ?>
+        	</tbody>
+        </table>
+    </div>
 </div>
 
 <div class="modal fade" id="modalLicenseForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

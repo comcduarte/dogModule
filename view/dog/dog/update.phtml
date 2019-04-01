@@ -5,21 +5,15 @@ $this->headtitle($title);
 $form->setAttribute('action', $this->url('dog/dog', ['action' => 'update', 'uuid' => $this->uuid]));
 $form->prepare();
 ?>
-<div class="container">
 	<div class="row">
-<?php
-echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE, 'breedForm' => $breedForm]);
-?>
-		<div class="col">
-<?php
-echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners_users, 'form' => $this->owners_form, 'dog' => $this->uuid]);
-
-echo $this->partial('dog/partial/licenses.phtml', ['licenses' => $this->licenses, 'form' => $this->licenses_form, 'dog' => $this->uuid]);
-?>
+		<div class="col-md-6">
+			<?php echo $this->partial('dog/partial/dogform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE, 'breedForm' => $breedForm]); ?>
 		</div>
+		<div class="col-md-6">
+            <?php echo $this->partial('dog/partial/owners.phtml', ['owners' => $this->owners_users, 'form' => $this->owners_form, 'dog' => $this->uuid]); ?>
+            <?php echo $this->partial('dog/partial/licenses.phtml', ['licenses' => $this->licenses, 'form' => $this->licenses_form, 'dog' => $this->uuid]); ?>
+        </div>
 	</div>
-</div>
-
 <?php
 echo $this->annotations()->setAnnotations($annotations)->render();
 ?>

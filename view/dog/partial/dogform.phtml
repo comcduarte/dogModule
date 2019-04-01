@@ -1,69 +1,68 @@
-<div class="col">
+<div class="card mb-4">
 <?php
 echo $this->form()->openTag($form);
 $formLabel = $this->plugin('formLabel');
 ?>
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<h3><?php echo $this->title; ?></h3>
-			</div>
-			<div class="d-flex justify-content-end">
-				<?php echo $this->formRow($form->get('SUBMIT')); ?>&nbsp;
-			</div>
+	<div class="card-header d-flex justify-content-between">
+		<div>
+			<b><?php echo $this->title; ?></b>
+		</div>
+		<div>
+			<?php echo $this->formRow($form->get('SUBMIT')); ?>
 		</div>
 	</div>
 	
-	<!-- Hidden Elements -->
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('SECURITY')); ?>
+	<div class="card-body">
+    	<!-- Hidden Elements -->
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('SECURITY')); ?>
+    	</div>
+    	
+    	<?php if (isset($this->uuid)) : ?>
+    	<div class="container">
+    		<img style=" width: 150px; height: auto;" src="<?=$this->url('image', ['uuid' => $this->uuid])?>">
+    	</div>
+    	<?php endif; ?>
+    	
+    	<?php 
+    	$breed_field = $form->get('BREED'); 
+    	$formLabel = $this->plugin('formLabel');
+    	?>
+    	<?php echo $formLabel->openTag() . $breed_field->getOption('label') . $formLabel->closeTag(); ?> 
+    	<div class="input-group">
+    		
+            
+                <?php echo $this->formSelect($breed_field); ?>
+                <div class="input-group-append">
+                	<button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAddBreedForm">Add</button>
+                </div>
+        </div>
+        <div class="form-group">
+    		<?php echo $this->formRow($form->get('NAME')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('SEX')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('DESCRIPTION')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('DATE_BIRTH')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('DATE_RABIESEXP')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('MICROCHIP')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('STATUS')); ?>
+    	</div>
+    	
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('PHOTO')); ?>
+    	</div>
 	</div>
-	
-	<?php if (isset($this->uuid)) : ?>
-	<div class="container">
-		<img style=" width: 150px; height: auto;" src="<?=$this->url('image', ['uuid' => $this->uuid])?>">
-	</div>
-	<?php endif; ?>
-	
-	<?php 
-	$breed_field = $form->get('BREED'); 
-	$formLabel = $this->plugin('formLabel');
-	?>
-	<?php echo $formLabel->openTag() . $breed_field->getOption('label') . $formLabel->closeTag(); ?> 
-	<div class="input-group">
-		
-        
-            <?php echo $this->formSelect($breed_field); ?>
-            <div class="input-group-append">
-            	<button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAddBreedForm">Add</button>
-            </div>
-    </div>
-    <div class="form-group">
-		<?php echo $this->formRow($form->get('NAME')); ?>
-	</div>
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('SEX')); ?>
-	</div>
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('DESCRIPTION')); ?>
-	</div>
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('DATE_BIRTH')); ?>
-	</div>
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('DATE_RABIESEXP')); ?>
-	</div>
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('MICROCHIP')); ?>
-	</div>
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('STATUS')); ?>
-	</div>
-	
-	<div class="form-group">
-		<?php echo $this->formRow($form->get('PHOTO')); ?>
-	</div>
-	
 
 <?php echo $this->form()->closeTag($form); ?>
 </div>
