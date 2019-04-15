@@ -46,8 +46,8 @@ class LicenseSearchForm extends Form
             'options' => [
                 'label' => 'Year',
                 'value_options' => [
-                    "2018" => "2018",
-                    "2019" => "2019",
+                    "2018-2019" => "2018-2019",
+                    "2019-2020" => "2019-2020",
                 ],
             ],
         ]);

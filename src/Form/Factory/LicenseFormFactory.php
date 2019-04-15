@@ -23,7 +23,8 @@ class LicenseFormFactory
         
         $value_options = [];
         for ($i = -1; $i < 2; $i++) {
-            $value_options[$year + $i] = $year + $i;
+            $value = sprintf("%s-%s",$year + $i, $year + $i + 1);
+            $value_options[$value] = $value;
         }
         $form->get('YEAR')->setOptions(['value_options' => $value_options]);
         

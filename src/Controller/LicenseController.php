@@ -156,7 +156,8 @@ class LicenseController extends AbstractActionController
         //-- Temporary test date --//
 //         $date = new \DateTime('2019-02-25 00:00:00', new \DateTimeZone('EDT'));
         
-        $year = $model->YEAR;
+        $date = new \DateTime('now',new \DateTimeZone('EDT'));
+        $year = $date->format('Y');
         $begin_registration = new \DateTime("$year-06-01 00:00:00",new \DateTimeZone('EDT'));
         $months = $date->diff($begin_registration);
 //         $today = $date->format('Y-m-d H:i:s');
