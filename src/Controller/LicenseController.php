@@ -183,7 +183,7 @@ class LicenseController extends AbstractActionController
         $annotation = new AnnotationModel($this->adapter);
         //$where = new Where(['TABLENAME' => 'dogs','PRIKEY' => $uuid]);
         $where = new Where([
-            new Like('TABLENAME', 'dog_licenses'),
+            new Like('TABLENAME', $model->getTableName()),
             new Like('PRIKEY', $uuid),
         ]);
         $annotations = $annotation->fetchAll($where, ['DATE_CREATED DESC']);
@@ -203,6 +203,8 @@ class LicenseController extends AbstractActionController
         
         return ([
             'annotations' => $notes,
+            'annotations_prikey' => $uuid,
+            'annotations_tablename' => $model->getTableName(),
             'breedForm' => $breedForm,
             'form' => $this->form,
             'uuid' => $uuid,
