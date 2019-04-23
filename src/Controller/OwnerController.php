@@ -66,7 +66,7 @@ class OwnerController extends AbstractActionController
         $cpassword->setValue($uuid->value);
         $form->add($cpassword);
         
-        $form->remove('STATUS');
+//         $form->remove('STATUS');
         
         
         if ($request->isPost()) {
