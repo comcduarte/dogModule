@@ -66,8 +66,9 @@ class OwnerController extends AbstractActionController
         $cpassword->setValue($uuid->value);
         $form->add($cpassword);
         
-//         $form->remove('STATUS');
-        
+        $form->get('CITY')->setAttribute('value', 'Middletown');
+        $form->get('STATE')->setAttribute('value', 'CT');  
+        $form->get('ZIP')->setAttribute('value', '06457');       
         
         if ($request->isPost()) {
             $owner = new OwnerModel($this->adapter);
