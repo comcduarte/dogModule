@@ -22,7 +22,7 @@ class LicenseFormFactory
         $year = $date->format('Y');
         
         $value_options = [];
-        for ($i = -1; $i < 2; $i++) {
+        for ($i = -2; $i < 2; $i++) {
             $value = sprintf("%s-%s",$year + $i, $year + $i + 1);
             $value_options[$value] = $value;
         }
