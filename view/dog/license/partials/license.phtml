@@ -2,7 +2,7 @@
 <div class="container border" style="width: 800px; height: 400px; font-size: 14px;">
 	<div id="watermark"></div>
     <div class="row">
-    	<div class="col d-flex justify-content-left">July 1, 2019 - June 30, 2020</div>
+    	<div class="col d-flex justify-content-left"><?= sprintf('July 1, %s - June 30, %s', substr($license->YEAR,0,4), substr($license->YEAR,5,4));?></div>
     	<div class="col d-flex justify-content-center"><h4>Dog License</h4></div>
     	<div class="col d-flex justify-content-end"><h6>TAG: <?=$this->license->TAG?></h6></div>
     </div>
