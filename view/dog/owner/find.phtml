@@ -22,7 +22,7 @@
 				<td><?=$user['DATE_MODIFIED']?></td>
 				<td>
 					<a class="btn btn-info" href=<?php echo $this->url('user/default', ['controller'=>'user', 'action' => 'assign','uuid' => $user['UUID']]); ?>>Assign Role</a>
-					<a class="btn btn-danger" href=<?php echo $this->url('user/default', ['controller'=>'user', 'action' => 'delete','uuid' => $user['UUID']]); ?>>Delete</a>
+					<a class="btn btn-danger" href=<?php echo $this->url('dog/owner', ['action' => 'delete','uuid' => $user['UUID']]); ?>>Delete</a>
 				</td>
 			</tr>
 		<?php endforeach; ?>
