@@ -181,6 +181,8 @@ class OwnerController extends AbstractActionController
         $user->read(['UUID' => $uuid]);
         $user->delete();
         
+        $this->flashmessenger()->addSuccessMessage('Owner deleted successfully.');
+        
         return $this->redirect()->toRoute('dog/owner');
     }
     
