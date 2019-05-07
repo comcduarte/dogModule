@@ -1,3 +1,7 @@
+<?php
+use Dog\Model\BreedModel;
+use Dog\Model\DogModel;
+?>
 <style type="text/css">
 @media print
 {
@@ -33,7 +37,16 @@
 				<td><?=$record['BREED']?></td>
 				<td><?=$record['DESCRIPTION']?></td>
 				<td><?=$record['DATE_BIRTH']?></td>
-				<td><?=$record['SEX']?></td>
+				<td>
+				<?php 
+				switch ($record['SEX']) {
+				    case DogModel::FEMALE: echo "Female"; break;
+				    case DogModel::MALE: echo "Male"; break;
+				    case DogModel::NEUTERED: echo "Neutered"; break;
+				    case DogModel::SPAYED: echo "Spayed"; break;
+				}
+				?>
+				</td>
 				<td><?=$record['DATE_RABIESEXP']?></td>
 			</tr>
 		<?php endforeach; ?>
