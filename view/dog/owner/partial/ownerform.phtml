@@ -1,0 +1,56 @@
+<div class="card mb-4">
+	<?php echo $this->form()->openTag($form); ?>
+	<div class="card-header d-flex justify-content-between">
+		<div>
+			<b><?php echo $this->title; ?></b>
+		</div>
+		<div>
+		<?php if ($this->update) : ?>
+			<a class="btn btn-primary btn-rounded" href="<?php echo $this->url('user/default', ['controller' => 'user', 'action' => 'changepw', 'uuid' => $uuid]); ?>">Change Password</a>
+		<?php endif; ?>
+			<?php echo $this->formRow($form->get('SUBMIT')); ?>
+		</div>
+	</div>
+	
+	<div class="card-body">
+    	<!-- Hidden Elements -->
+    	
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('SECURITY')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('USERNAME')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('FNAME')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('LNAME')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('ADDR1')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('ADDR2')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('CITY')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('STATE')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('ZIP')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('PHONE')); ?>
+    	</div>
+    	<div class="form-group">
+    		<?php echo $this->formRow($form->get('EMAIL')); ?>
+    	</div>
+    	<div class="form-group">
+        	<?php echo $this->formRow($form->get('STATUS')); ?>
+        </div>
+	</div>
+	<?php echo $this->form()->closeTag($form); ?>
+</div>

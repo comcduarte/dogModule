@@ -2,20 +2,21 @@
 namespace Dog\Controller;
 
 use Annotation\Model\AnnotationModel;
+use Dog\Form\OwnerForm;
 use Dog\Form\OwnerSearchForm;
 use Dog\Model\OwnerModel;
 use Midnet\Model\Uuid;
 use User\Form\UserForm;
+use User\Model\RoleModel;
 use User\Model\UserModel;
 use Zend\Db\Adapter\AdapterAwareTrait;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Predicate\Like;
+use Zend\Form\Element\Hidden;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\DbSelect;
-use Zend\Form\Element\Hidden;
-use User\Model\RoleModel;
 
 class OwnerController extends AbstractActionController
 {
@@ -113,7 +114,7 @@ class OwnerController extends AbstractActionController
         $owner = new OwnerModel($this->adapter);
         $owner->read(['UUID'=>$uuid]);
         
-        $form = new UserForm();
+        $form = new OwnerForm();
         $form->bind($owner);
         $form->get('SUBMIT')->setAttribute('value', 'Update');
         

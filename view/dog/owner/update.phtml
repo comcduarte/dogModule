@@ -7,7 +7,7 @@ $form->prepare();
 ?>
 	<div class="row">
 		<div class="col-md-6">
-    		<?php echo $this->partial('user/partial/userform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
+    		<?php echo $this->partial('dog/owner/partial/ownerform.phtml', ['title' => $title, 'form' => $form, 'uuid' => $this->uuid, 'update' => TRUE]); ?>
 		</div>
 		<div class="col-md-6">
     		<?php echo $this->partial('dog/partial/dogs.phtml', ['dogs' => $this->dogs]); ?>

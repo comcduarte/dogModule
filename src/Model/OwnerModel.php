@@ -2,8 +2,9 @@
 namespace Dog\Model;
 
 use User\Model\UserModel;
-use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
+use Zend\InputFilter\InputFilter;
 use RuntimeException;
 
 class OwnerModel extends UserModel
@@ -32,5 +33,19 @@ class OwnerModel extends UserModel
         }
         
         return $dogs;
+    }
+    
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            
+            /**
+             * Removed PASSWORD and CONFIRM_PASSWORD filters, and passed blank input filter
+             */
+            
+            $this->inputFilter = $inputFilter;
+        }
+        return $this->inputFilter;
     }
 }
