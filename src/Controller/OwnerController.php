@@ -197,9 +197,16 @@ class OwnerController extends AbstractActionController
             $data = $request->getPost();
             $form->setData($data);
             
+            $search_string = NULL;
+            if (stripos($data['LNAME'],'%')) {
+                $search_string = $data['LNAME'];
+            } else {
+                $search_string = '%' . $data['LNAME'] . '%';
+            }
+            
             if ($form->isValid()) {
                 $predicate = new Where();
-                $predicate->like('LNAME', '%' . $data['LNAME'] . '%');
+                $predicate->like('LNAME', $search_string);
                 $owners = $owner->fetchAll($predicate, ['LNAME']);
             }
         }
