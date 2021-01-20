@@ -22,6 +22,13 @@ class LicenseFormFactory
         $year = $date->format('Y');
         
         $value_options = [];
+        
+        if (date('m') <= 6) {
+            //-- Prior to July --//
+            $value = sprintf("%s-%s",$year - 1, $year);
+            $value_options[$value] = $value;
+        }
+        
         for ($i = 0; $i < 2; $i++) {
             $value = sprintf("%s-%s",$year + $i, $year + $i + 1);
             $value_options[$value] = $value;
