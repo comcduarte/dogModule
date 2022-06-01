@@ -1,4 +1,5 @@
 <?php use Dog\Model\DogModel; ?>
+<?php $fmt = new NumberFormatter('en_US', NumberFormatter::CURRENCY); ?>
 <div class="container border" style="width: 800px; height: 400px; font-size: 14px;">
 	<div id="watermark"></div>
     <div class="row">
@@ -16,7 +17,7 @@
     	</div>
     	<div class="col">
     		Date Issued: <?=$this->license->DATE_CREATED?><br>
-    		Fee: <?=money_format('$%i' ,$this->license->FEE)?><br>
+    		Fee: <?=$fmt->formatCurrency($this->license->FEE, 'USD')?><br>
     		Codes: 
     		<?php 
     		foreach ($this->codes as $code) {
