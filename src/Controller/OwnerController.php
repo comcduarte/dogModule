@@ -91,7 +91,11 @@ class OwnerController extends AbstractActionController
                 $owner->DATE_CREATED = $today;
                 
                 $owner->STATUS = $owner::ACTIVE_STATUS;
-                $owner->assignRole($role->UUID);
+                $owner->assignRole([
+                    $uuid->generate()->value,
+                    $owner->UUID,
+                    $role->UUID,
+                ]);
                 
                 $owner->create();
                 
