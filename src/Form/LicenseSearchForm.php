@@ -3,10 +3,10 @@ namespace Dog\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element\Csrf;
+use Zend\Form\Element\Hidden;
 use Zend\Form\Element\Select;
 use Zend\Form\Element\Submit;
 use Zend\Form\Element\Text;
-use Zend\Form\Element\Hidden;
 
 class LicenseSearchForm extends Form
 {
@@ -46,6 +46,7 @@ class LicenseSearchForm extends Form
             'options' => [
                 'label' => 'Year',
                 'value_options' => [
+                    "2023-2024" => "2023-2024",
                     "2022-2023" => "2022-2023",
                     "2021-2022" => "2021-2022",
                     "2020-2021" => "2020-2021",
